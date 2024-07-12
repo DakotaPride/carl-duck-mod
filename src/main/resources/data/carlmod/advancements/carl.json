@@ -1,0 +1,44 @@
+{
+  "display": {
+    "icon": {
+      "item": "carlmod:carl"
+    },
+    "title": {
+      "translate": "advancement.carlmod.obtain_carl.title"
+    },
+    "description": {
+      "translate": "advancement.carlmod.obtain_carl.description",
+      "color": "#FFC844",
+      "bold": false,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "minecraft:husbandry/root",
+  "criteria": {
+    "obtain_carl": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "player": {},
+        "items": [
+          {
+            "items": [
+              "carlmod:carl"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "obtain_carl"
+    ]
+  ]
+}

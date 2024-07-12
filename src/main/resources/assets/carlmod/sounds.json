@@ -1,0 +1,8 @@
+{
+  "quack": {
+    "subtitle": "sounds.carlmod.quack",
+    "sounds": [
+      "carlmod:quack"
+    ]
+  }
+}

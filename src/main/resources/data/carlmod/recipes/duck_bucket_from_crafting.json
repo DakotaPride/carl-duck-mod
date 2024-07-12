@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "minecraft:water_bucket"
+  },
+  "addition": {
+    "item": "carlmod:carl"
+  },
+  "result": {
+    "item": "carlmod:duck_bucket"
+  }
+}

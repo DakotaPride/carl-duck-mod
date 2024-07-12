@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=east,big_helmet=false": {
+      "model": "carlmod:block/carl",
+      "y": 90
+    },
+    "facing=north,big_helmet=false": {
+      "model": "carlmod:block/carl"
+    },
+    "facing=west,big_helmet=false": {
+      "model": "carlmod:block/carl",
+      "y": 270
+    },
+    "facing=south,big_helmet=false": {
+      "model": "carlmod:block/carl",
+      "y": 180
+    },
+    "facing=east,big_helmet=true": {
+      "model": "carlmod:block/big_helmet_carl",
+      "y": 90
+    },
+    "facing=north,big_helmet=true": {
+      "model": "carlmod:block/big_helmet_carl"
+    },
+    "facing=west,big_helmet=true": {
+      "model": "carlmod:block/big_helmet_carl",
+      "y": 270
+    },
+    "facing=south,big_helmet=true": {
+      "model": "carlmod:block/big_helmet_carl",
+      "y": 180
+    }
+  }
+}
