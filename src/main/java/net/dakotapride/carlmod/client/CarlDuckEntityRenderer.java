@@ -5,7 +5,7 @@ import net.dakotapride.carlmod.CarlMod;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
-import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
+import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 public class CarlDuckEntityRenderer extends GeoEntityRenderer<CarlDuckEntity> {
     public CarlDuckEntityRenderer(EntityRendererProvider.Context renderManager) {

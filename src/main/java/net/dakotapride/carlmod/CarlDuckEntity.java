@@ -22,9 +22,7 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -37,19 +35,19 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.ForgeEventFactory;
 import org.jetbrains.annotations.NotNull;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.core.animatable.GeoAnimatable;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.*;
+import software.bernie.geckolib.core.object.PlayState;
 
 import javax.annotation.Nullable;
 
-public class CarlDuckEntity extends TamableAnimal implements IAnimatable, Bucketable {
+public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketable {
     Level level;
-    private final AnimationFactory factory = new AnimationFactory(this);
+    private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 
     private static final EntityDataAccessor<Boolean> SITTING = SynchedEntityData.defineId(CarlDuckEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(CarlDuckEntity.class, EntityDataSerializers.BOOLEAN);
@@ -143,7 +141,7 @@ public class CarlDuckEntity extends TamableAnimal implements IAnimatable, Bucket
         }
 
         Vec3 vec3d = this.getDeltaMovement();
-        if (!this.isOnGround() && vec3d.y < 0.0D) {
+        if (!this.onGround() && vec3d.y < 0.0D) {
             this.setDeltaMovement(vec3d.multiply(1.0D, 0.8D, 1.0D));
         }
     }
@@ -255,28 +253,28 @@ public class CarlDuckEntity extends TamableAnimal implements IAnimatable, Bucket
         return stack.is(Tags.Items.SEEDS);
     }
 
-    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+    private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> event) {
         if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.carl.walk", true));
+            event.getController().setAnimation(RawAnimation.begin().then("animation.carl.walk", Animation.LoopType.LOOP));
         } else if (this.isDancing()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.carl.dancing", true));
+            event.getController().setAnimation(RawAnimation.begin().then("animation.carl.dancing", Animation.LoopType.LOOP));
         } else if (this.isSitting()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.carl.sitting", true));
+            event.getController().setAnimation(RawAnimation.begin().then("animation.carl.sitting", Animation.LoopType.LOOP));
         } else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.carl.idle", true));
+            event.getController().setAnimation(RawAnimation.begin().then("animation.carl.idle", Animation.LoopType.LOOP));
         }
 
         return PlayState.CONTINUE;
     }
 
     @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController(this, "controller", 20, this::predicate));
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
     @Override
-    public AnimationFactory getFactory() {
-        return factory;
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return cache;
     }
 
     @Override
@@ -316,12 +314,10 @@ public class CarlDuckEntity extends TamableAnimal implements IAnimatable, Bucket
             || "dejojo".equalsIgnoreCase(this.getName().getString()) || "dejojotheawsome".equalsIgnoreCase(this.getName().getString())) {
             // placeholder - return SoundEvents.COD_AMBIENT;
             return CarlMod.CARL_QUACK.get();
-        } else if ("adorable".equalsIgnoreCase(this.getName().getString())) {
-            return SoundEvents.WITHER_AMBIENT;
         } else if ("dragon".equalsIgnoreCase(this.getName().getString()) || "ender_dragon".equalsIgnoreCase(this.getName().getString()) || "jean".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.ENDER_DRAGON_AMBIENT;
         } else if ("mekanism".equalsIgnoreCase(this.getName().getString()) || "mekanized".equalsIgnoreCase(this.getName().getString()) || "create".equalsIgnoreCase(this.getName().getString())) {
-            return null;
+            return SoundEvents.IRON_GOLEM_REPAIR;
         } else {
             return CarlMod.CARL_QUACK.get();
         }
@@ -334,8 +330,6 @@ public class CarlDuckEntity extends TamableAnimal implements IAnimatable, Bucket
                 || "dejojo".equalsIgnoreCase(this.getName().getString()) || "dejojotheawsome".equalsIgnoreCase(this.getName().getString())) {
             // placeholder - return SoundEvents.COD_DEATH;
             return CarlMod.CARL_QUACK.get();
-        } else if ("adorable".equalsIgnoreCase(this.getName().getString())) {
-            return SoundEvents.WITHER_DEATH;
         } else if ("dragon".equalsIgnoreCase(this.getName().getString()) || "ender_dragon".equalsIgnoreCase(this.getName().getString()) || "jean".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.ENDER_DRAGON_DEATH;
         } else if ("mekanism".equalsIgnoreCase(this.getName().getString()) || "mekanized".equalsIgnoreCase(this.getName().getString()) || "create".equalsIgnoreCase(this.getName().getString())) {
@@ -352,8 +346,6 @@ public class CarlDuckEntity extends TamableAnimal implements IAnimatable, Bucket
                 || "dejojo".equalsIgnoreCase(this.getName().getString()) || "dejojotheawsome".equalsIgnoreCase(this.getName().getString())) {
             // placeholder - return SoundEvents.COD_HURT;
             return CarlMod.CARL_QUACK.get();
-        } else if ("adorable".equalsIgnoreCase(this.getName().getString())) {
-            return SoundEvents.WITHER_HURT;
         } else if ("dragon".equalsIgnoreCase(this.getName().getString()) || "ender_dragon".equalsIgnoreCase(this.getName().getString()) || "jean".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.ENDER_DRAGON_HURT;
         } else if ("mekanism".equalsIgnoreCase(this.getName().getString()) || "mekanized".equalsIgnoreCase(this.getName().getString()) || "create".equalsIgnoreCase(this.getName().getString())) {

@@ -6,9 +6,7 @@ import net.dakotapride.carlmod.forge.LootModifiers;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderers;
-import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -20,11 +18,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeSoundType;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -36,9 +34,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
-import software.bernie.geckolib3.GeckoLib;
+import software.bernie.geckolib.GeckoLib;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(CarlMod.MODID)
@@ -59,48 +56,40 @@ public class CarlMod {
 
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, MODID);
 
-    public static class ModCreativeModeTab {
-        public static final CreativeModeTab CARL_MOD = new CreativeModeTab("carlmod.carl") {
-            @Override
-            public @NotNull ItemStack makeIcon() {
-                return new ItemStack(CarlMod.CARL_ITEM.get());
-            }
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
-            static ItemStack getDejojoTag(ItemStack stack, String nameTagName) {
+    // public static final RegistryObject<CreativeModeTab> CARL_TAB = CREATIVE_MODE_TABS.register("carl", ModCreativeModeTab::new);
+    public static final RegistryObject<CreativeModeTab> CARL_TAB = CREATIVE_MODE_TABS.register("carl",
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(CarlMod.CARL_ITEM.get()))
+                    .title(Component.translatable("itemGroup.carlmod.carl"))
+                    .displayItems(new DisplayItems())
+                    .build());
 
-                stack.getOrCreateTagElement("display").putString("Name", Component.Serializer.toJson(Component.literal(nameTagName)));
-                stack.getOrCreateTag().putInt("RepairCost", 0);
+    public static class DisplayItems implements CreativeModeTab.DisplayItemsGenerator {
 
-                return stack;
-            }
+        @Override
+        public void accept(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output output) {
+            output.accept(CarlMod.DUCK_BUCKET.get().getDefaultInstance());
+            output.accept(CarlMod.CARL_ITEM.get().getDefaultInstance());
+            output.accept(CarlMod.CARL_SPAWN_EGG.get().getDefaultInstance());
 
-            @Override
-            public void fillItemList(NonNullList<ItemStack> stacks) {
-                // stacks.add(0, CarlMod.CARL_MOLD_ITEM.get().getDefaultInstance());
-                // stacks.add(0, CarlMod.ANDESITE_HELMET.get().getDefaultInstance());
-                // Name Tags
-                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "jean"));
-                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "ender_dragon"));
-                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "dragon"));
-                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "audrey"));
-                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "deaudie"));
-                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "adorable"));
-                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "create"));
-                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "mekanized"));
-                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "mekanism"));
-                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "bare_bones"));
-                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "barebones"));
-                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "garnished"));
-                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "dejojotheawsome"));
-                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "dejojo"));
-                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "carltheawsome"));
-                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "awsome"));
-
-                stacks.add(0, CarlMod.CARL_SPAWN_EGG.get().getDefaultInstance());
-                stacks.add(0, CarlMod.DUCK_BUCKET.get().getDefaultInstance());
-                stacks.add(0, CarlMod.CARL_ITEM.get().getDefaultInstance());
-            }
-        };
+            output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "awsome"));
+            output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "carltheawsome"));
+            output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "dejojo"));
+            output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "dejojotheawsome"));
+            output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "garnished"));
+            output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "barebones"));
+            output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "bare_bones"));
+            output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "mekanism"));
+            output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "mekanized"));
+            output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "create"));
+            output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "adorable"));
+            output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "deaudie"));
+            output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "audrey"));
+            output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "dragon"));
+            output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "ender_dragon"));
+            output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "jean"));
+        }
     }
 
     // Creates a new Block with the id "examplemod:example_block", combining the namespace and path
@@ -109,18 +98,18 @@ public class CarlMod {
     // public static final RegistryObject<Item> EXAMPLE_BLOCK_ITEM = ITEMS.register("example_block", () -> new BlockItem(EXAMPLE_BLOCK.get(), new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)));
 
 
-    public static final RegistryObject<Block> CARL_BLOCK = BLOCKS.register("carl", () -> new CarlBlock(BlockBehaviour.Properties.of(Material.WOOL).noOcclusion().instabreak().sound(CarlMod.CARL_GENERIC_SOUNDS)));
-    public static final RegistryObject<Item> CARL_ITEM = ITEMS.register("carl", () -> new BlockItem(CARL_BLOCK.get(), new Item.Properties().tab(ModCreativeModeTab.CARL_MOD)));
-    public static final RegistryObject<Item> DUCK_BUCKET = ITEMS.register("duck_bucket", () -> new MobBucketItem(CarlMod.CARL_ENTITY, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1).tab(ModCreativeModeTab.CARL_MOD)));
+    public static final RegistryObject<Block> CARL_BLOCK = BLOCKS.register("carl", () -> new CarlBlock(BlockBehaviour.Properties.of().noOcclusion().instabreak().sound(CarlMod.CARL_GENERIC_SOUNDS)));
+    public static final RegistryObject<Item> CARL_ITEM = ITEMS.register("carl", () -> new BlockItem(CARL_BLOCK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> DUCK_BUCKET = ITEMS.register("duck_bucket", () -> new MobBucketItem(CarlMod.CARL_ENTITY, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)));
 
-    public static final RegistryObject<Item> CARL_SPAWN_EGG = ITEMS.register("carl_spawn_egg", () -> new ForgeSpawnEggItem(CarlMod.CARL_ENTITY, 0xFFDC41, 0xFFC844, new Item.Properties().tab(ModCreativeModeTab.CARL_MOD)));
+    public static final RegistryObject<Item> CARL_SPAWN_EGG = ITEMS.register("carl_spawn_egg", () -> new ForgeSpawnEggItem(CarlMod.CARL_ENTITY, 0xFFDC41, 0xFFC844, new Item.Properties()));
 
     // Create Compat/Integration
     // public static final RegistryObject<Item> CARL_MOLD_ITEM = ITEMS.register("carl_mold", () -> new CompatItem(CompatItem.ModIds.CREATE.id, new Item.Properties().tab(ModCreativeModeTab.CARL_MOD)));
     // public static final RegistryObject<Item> INCOMPLETE_CARL_ITEM = ITEMS.register("incomplete_carl", () -> new CompatItem(CompatItem.ModIds.CREATE.id, new Item.Properties()));
     // public static final RegistryObject<Item> ANDESITE_HELMET = ITEMS.register("andesite_helmet", () -> new CompatItem(CompatItem.ModIds.CREATE.id, new Item.Properties().tab(ModCreativeModeTab.CARL_MOD)));
 
-    public static final RegistryObject<SoundEvent> CARL_QUACK = SOUNDS.register("quack", () -> new SoundEvent(new ResourceLocation(MODID, "quack")));
+    public static final RegistryObject<SoundEvent> CARL_QUACK = SOUNDS.register("quack", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "quack")));
 
     public static final ForgeSoundType CARL_GENERIC_SOUNDS = new ForgeSoundType(1f, 1f,
             CARL_QUACK, () -> SoundEvents.CALCITE_STEP, CARL_QUACK,
@@ -150,6 +139,10 @@ public class CarlMod {
 
         LootModifiers.register(modEventBus);
 
+        // ModCreativeModeTab.load();
+        // Register the item to a creative tab
+        CREATIVE_MODE_TABS.register(modEventBus);
+
         GeckoLib.initialize();
 
         // Register ourselves for server and other game events we are interested in
@@ -157,6 +150,14 @@ public class CarlMod {
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         // ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+    }
+
+    static ItemStack getNameTag(ItemStack stack, String nameTagName) {
+
+        stack.getOrCreateTagElement("display").putString("Name", Component.Serializer.toJson(Component.literal(nameTagName)));
+        stack.getOrCreateTag().putInt("RepairCost", 0);
+
+        return stack;
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
