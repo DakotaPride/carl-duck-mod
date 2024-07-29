@@ -7,6 +7,9 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.Registry;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -63,10 +66,36 @@ public class CarlMod {
                 return new ItemStack(CarlMod.CARL_ITEM.get());
             }
 
+            static ItemStack getDejojoTag(ItemStack stack, String nameTagName) {
+
+                stack.getOrCreateTagElement("display").putString("Name", Component.Serializer.toJson(Component.literal(nameTagName)));
+                stack.getOrCreateTag().putInt("RepairCost", 0);
+
+                return stack;
+            }
+
             @Override
             public void fillItemList(NonNullList<ItemStack> stacks) {
                 // stacks.add(0, CarlMod.CARL_MOLD_ITEM.get().getDefaultInstance());
                 // stacks.add(0, CarlMod.ANDESITE_HELMET.get().getDefaultInstance());
+                // Name Tags
+                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "jean"));
+                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "ender_dragon"));
+                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "dragon"));
+                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "audrey"));
+                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "deaudie"));
+                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "adorable"));
+                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "create"));
+                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "mekanized"));
+                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "mekanism"));
+                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "bare_bones"));
+                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "barebones"));
+                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "garnished"));
+                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "dejojotheawsome"));
+                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "dejojo"));
+                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "carltheawsome"));
+                stacks.add(0, getDejojoTag(Items.NAME_TAG.getDefaultInstance(), "awsome"));
+
                 stacks.add(0, CarlMod.CARL_SPAWN_EGG.get().getDefaultInstance());
                 stacks.add(0, CarlMod.DUCK_BUCKET.get().getDefaultInstance());
                 stacks.add(0, CarlMod.CARL_ITEM.get().getDefaultInstance());

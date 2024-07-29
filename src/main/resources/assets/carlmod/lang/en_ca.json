@@ -1,0 +1,32 @@
+{
+  "block.carlmod.carl": "Carl",
+  "item.carlmod.duck_bucket": "Bucket of Carl",
+  "item.carlmod.carl_spawn_egg": "Carl Spawn Egg",
+  "entity.carlmod.carl": "Carl The Space Duck",
+  "text.carlmod.space_duck": "The Almighty Space Duck",
+  "text.carlmod.equippable.head": "Equippable on Head",
+
+  "sounds.carlmod.quack": "Quack Quack",
+
+  "itemGroup.carlmod.carl": "The Space Duck",
+  "advancement.carlmod.obtain_carl.title": "Quack Quack",
+  "advancement.carlmod.obtain_carl.description": "Obtain Carl The Space Duck",
+
+  // Create mod integration
+  "item.carlmod.carl_mold": "Carl Mold",
+  "item.carlmod.incomplete_carl": "Incomplete Carl",
+  "item.carlmod.andesite_helmet": "Andesite Helmet",
+  "text.carlmod.required_mod.create": "Requires Create to be Installed",
+
+  // Applied Energistics 2
+  "text.carlmod.required_mod.ae2": "Requires Applied Energistics 2 to be Installed",
+
+  // Refined Storage
+  "text.carlmod.required_mod.refined_storage": "Requires Refined Storage to be Installed",
+
+  // Mekanism
+  "text.carlmod.required_mod.mekanism": "Requires Mekanism to be Installed",
+
+  // Thermal Foundation/Expansion
+  "text.carlmod.required_mod.thermal": "Requires Thermal Foundation/Expansion to be Installed"
+}
