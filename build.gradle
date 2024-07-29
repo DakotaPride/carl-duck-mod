@@ -5,8 +5,10 @@ plugins {
     id 'maven-publish'
 }
 
-version = mod_version
 group = mod_group_id
+
+String buildNumber = System.getenv("GITHUB_RUN_NUMBER")
+version = "${mod_version}+${minecraft_version}" + (buildNumber != null ? "-${buildNumber}" : "")
 
 base {
     archivesName = mod_id
