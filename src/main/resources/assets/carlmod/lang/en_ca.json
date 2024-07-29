@@ -12,6 +12,12 @@
   "advancement.carlmod.obtain_carl.title": "Quack Quack",
   "advancement.carlmod.obtain_carl.description": "Obtain Carl The Space Duck",
 
+  "item.carlmod.smithing_template.carl_upgrade.additions_slot_description": "Add Carl",
+  "item.carlmod.smithing_template.carl_upgrade.applies_to": "Buckets",
+  "item.carlmod.smithing_template.carl_upgrade.base_slot_description": "Add Bucket",
+  "item.carlmod.smithing_template.carl_upgrade.ingredients": "Carl",
+  "upgrade.carlmod.carl_upgrade": "Carl Bucket Upgrade",
+
   // Create mod integration
   "item.carlmod.carl_mold": "Carl Mold",
   "item.carlmod.incomplete_carl": "Incomplete Carl",

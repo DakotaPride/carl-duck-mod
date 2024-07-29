@@ -4,6 +4,7 @@ import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.dakotapride.carlmod.CarlMod;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -28,7 +29,13 @@ public class AddItemModifier extends LootModifier {
 
     @Override
     protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-        if(context.getRandom().nextFloat() >= 0.75f) {
+        float chance = 0.75F;
+
+        if (item.getDefaultInstance().is(CarlMod.DUCK_BUCKET.get())) {
+            chance = 0.5F;
+        }
+
+        if (context.getRandom().nextFloat() >= chance) {
             generatedLoot.add(new ItemStack(item));
         }
 

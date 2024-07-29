@@ -1,7 +1,10 @@
 {
-  "type": "minecraft:smithing",
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "carlmod:carl_template"
+  },
   "base": {
-    "item": "minecraft:water_bucket"
+    "item": "minecraft:bucket"
   },
   "addition": {
     "item": "carlmod:carl"

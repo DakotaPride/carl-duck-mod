@@ -1,6 +1,7 @@
 {
   "replace": false,
   "entries": [
-    "carlmod:duck_bucket"
+    "carlmod:duck_bucket",
+    "carlmod:carl_template"
   ]
 }
