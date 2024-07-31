@@ -29,13 +29,7 @@ public class AddItemModifier extends LootModifier {
 
     @Override
     protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-        float chance = 0.75F;
-
-        if (item.getDefaultInstance().is(CarlMod.DUCK_BUCKET.get())) {
-            chance = 0.5F;
-        }
-
-        if (context.getRandom().nextFloat() >= chance) {
+        if (context.getRandom().nextFloat() >= 0.25F) {
             generatedLoot.add(new ItemStack(item));
         }
 
