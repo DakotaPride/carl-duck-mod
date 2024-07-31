@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "#S#",
+    "#C#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:diamond"
+    },
+    "C": {
+      "item": "minecraft:snow_block"
+    },
+    "S": {
+      "item": "carlmod:carl_template"
+    }
+  },
+  "result": {
+    "item": "carlmod:carl_template",
+    "count": 2
+  }
+}
