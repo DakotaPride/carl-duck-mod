@@ -4,7 +4,7 @@
     "item": "carlmod:carl_template"
   },
   "base": {
-    "item": "minecraft:bucket"
+    "item": "minecraft:water_bucket"
   },
   "addition": {
     "item": "carlmod:carl"
