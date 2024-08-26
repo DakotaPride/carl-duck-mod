@@ -15,6 +15,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -58,6 +59,9 @@ public class CarlMod {
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, MODID);
 
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, MODID);
+
+    public static final DeferredRegister<PaintingVariant> PAINTING_VARIANTS =
+            DeferredRegister.create(ForgeRegistries.PAINTING_VARIANTS, MODID);
 
     public static class ModCreativeModeTab {
         public static final CreativeModeTab CARL_MOD = new CreativeModeTab("carlmod.carl") {
@@ -132,6 +136,11 @@ public class CarlMod {
                             .sized(0.4f, 0.4f)
                             .build(new ResourceLocation(MODID, "carl").toString()));
 
+    // Easter Egg
+
+    public static final RegistryObject<PaintingVariant> PLANT = PAINTING_VARIANTS.register("dejojo_the_pixelated",
+            () -> new PaintingVariant(16, 16));
+
     public CarlMod() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
@@ -147,6 +156,8 @@ public class CarlMod {
         SOUNDS.register(modEventBus);
 
         ENTITY_TYPES.register(modEventBus);
+
+        PAINTING_VARIANTS.register(modEventBus);
 
         LootModifiers.register(modEventBus);
 
