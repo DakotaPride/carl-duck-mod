@@ -18,6 +18,9 @@
   "item.carlmod.smithing_template.carl_upgrade.ingredients": "Carl",
   "upgrade.carlmod.carl_upgrade": "Carl Bucket Upgrade",
 
+  "painting.carlmod.dejojo_the_pixelated.title": "DejojoThePixelated",
+  "painting.carlmod.dejojo_the_pixelated.author": "DejojoTheAwsome",
+
   // Create mod integration
   "item.carlmod.carl_mold": "Carl Mold",
   "item.carlmod.incomplete_carl": "Incomplete Carl",
