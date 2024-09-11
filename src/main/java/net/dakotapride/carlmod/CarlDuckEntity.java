@@ -315,7 +315,7 @@ public class CarlDuckEntity extends TamableAnimal implements IAnimatable, Bucket
         if ("awsome".equalsIgnoreCase(this.getName().getString()) || "carltheawsome".equalsIgnoreCase(this.getName().getString())
             || "dejojo".equalsIgnoreCase(this.getName().getString()) || "dejojotheawsome".equalsIgnoreCase(this.getName().getString())) {
             // placeholder - return SoundEvents.COD_AMBIENT;
-            return CarlMod.CARL_QUACK.get();
+            return CarlMod.CARL_WAMP.get();
         } else if ("adorable".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.WITHER_AMBIENT;
         } else if ("dragon".equalsIgnoreCase(this.getName().getString()) || "ender_dragon".equalsIgnoreCase(this.getName().getString()) || "jean".equalsIgnoreCase(this.getName().getString())) {
@@ -333,7 +333,7 @@ public class CarlDuckEntity extends TamableAnimal implements IAnimatable, Bucket
         if ("awsome".equalsIgnoreCase(this.getName().getString()) || "carltheawsome".equalsIgnoreCase(this.getName().getString())
                 || "dejojo".equalsIgnoreCase(this.getName().getString()) || "dejojotheawsome".equalsIgnoreCase(this.getName().getString())) {
             // placeholder - return SoundEvents.COD_DEATH;
-            return CarlMod.CARL_QUACK.get();
+            return CarlMod.CARL_WAMP.get();
         } else if ("adorable".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.WITHER_DEATH;
         } else if ("dragon".equalsIgnoreCase(this.getName().getString()) || "ender_dragon".equalsIgnoreCase(this.getName().getString()) || "jean".equalsIgnoreCase(this.getName().getString())) {
@@ -351,7 +351,7 @@ public class CarlDuckEntity extends TamableAnimal implements IAnimatable, Bucket
         if ("awsome".equalsIgnoreCase(this.getName().getString()) || "carltheawsome".equalsIgnoreCase(this.getName().getString())
                 || "dejojo".equalsIgnoreCase(this.getName().getString()) || "dejojotheawsome".equalsIgnoreCase(this.getName().getString())) {
             // placeholder - return SoundEvents.COD_HURT;
-            return CarlMod.CARL_QUACK.get();
+            return CarlMod.CARL_WAMP.get();
         } else if ("adorable".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.WITHER_HURT;
         } else if ("dragon".equalsIgnoreCase(this.getName().getString()) || "ender_dragon".equalsIgnoreCase(this.getName().getString()) || "jean".equalsIgnoreCase(this.getName().getString())) {
