@@ -117,6 +117,7 @@ public class CarlMod {
     // public static final RegistryObject<Item> ANDESITE_HELMET = ITEMS.register("andesite_helmet", () -> new CompatItem(CompatItem.ModIds.CREATE.id, new Item.Properties().tab(ModCreativeModeTab.CARL_MOD)));
 
     public static final RegistryObject<SoundEvent> CARL_QUACK = SOUNDS.register("quack", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "quack")));
+    public static final RegistryObject<SoundEvent> CARL_WAMP = SOUNDS.register("wamp", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "wamp")));
 
     public static final ForgeSoundType CARL_GENERIC_SOUNDS = new ForgeSoundType(1f, 1f,
             CARL_QUACK, () -> SoundEvents.CALCITE_STEP, CARL_QUACK,
@@ -130,8 +131,10 @@ public class CarlMod {
 
     // Easter Egg
 
-    public static final RegistryObject<PaintingVariant> PLANT = PAINTING_VARIANTS.register("dejojo_the_pixelated",
+    public static final RegistryObject<PaintingVariant> DEJOJO_THE_PIXELATED = PAINTING_VARIANTS.register("dejojo_the_pixelated",
             () -> new PaintingVariant(16, 16));
+    public static final RegistryObject<PaintingVariant> DEJOJO_THE_PIXELATED_64x = PAINTING_VARIANTS.register("dejojo_the_pixelated_64px",
+            () -> new PaintingVariant(64, 64));
 
     public CarlMod() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();

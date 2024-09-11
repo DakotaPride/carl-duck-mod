@@ -7,6 +7,7 @@
   "text.carlmod.equippable.head": "Equippable on Head",
 
   "sounds.carlmod.quack": "Quack Quack",
+  "sounds.carlmod.wamp": "Quack Quack",
 
   "itemGroup.carlmod.carl": "The Space Duck",
   "advancement.carlmod.obtain_carl.title": "Quack Quack",
@@ -20,6 +21,8 @@
 
   "painting.carlmod.dejojo_the_pixelated.title": "DejojoThePixelated",
   "painting.carlmod.dejojo_the_pixelated.author": "DejojoTheAwsome",
+  "painting.carlmod.dejojo_the_pixelated_64x.title": "DejojoThePixelated 64x",
+  "painting.carlmod.dejojo_the_pixelated_64x.author": "DejojoTheAwsome",
 
   // Create mod integration
   "item.carlmod.carl_mold": "Carl Mold",

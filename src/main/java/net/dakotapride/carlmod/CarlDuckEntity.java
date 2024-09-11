@@ -313,7 +313,7 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
         if ("awsome".equalsIgnoreCase(this.getName().getString()) || "carltheawsome".equalsIgnoreCase(this.getName().getString())
             || "dejojo".equalsIgnoreCase(this.getName().getString()) || "dejojotheawsome".equalsIgnoreCase(this.getName().getString())) {
             // placeholder - return SoundEvents.COD_AMBIENT;
-            return CarlMod.CARL_QUACK.get();
+            return CarlMod.CARL_WAMP.get();
         } else if ("dragon".equalsIgnoreCase(this.getName().getString()) || "ender_dragon".equalsIgnoreCase(this.getName().getString()) || "jean".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.ENDER_DRAGON_AMBIENT;
         } else if ("mekanism".equalsIgnoreCase(this.getName().getString()) || "mekanized".equalsIgnoreCase(this.getName().getString()) || "create".equalsIgnoreCase(this.getName().getString())) {
@@ -329,7 +329,7 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
         if ("awsome".equalsIgnoreCase(this.getName().getString()) || "carltheawsome".equalsIgnoreCase(this.getName().getString())
                 || "dejojo".equalsIgnoreCase(this.getName().getString()) || "dejojotheawsome".equalsIgnoreCase(this.getName().getString())) {
             // placeholder - return SoundEvents.COD_DEATH;
-            return CarlMod.CARL_QUACK.get();
+            return CarlMod.CARL_WAMP.get();
         } else if ("dragon".equalsIgnoreCase(this.getName().getString()) || "ender_dragon".equalsIgnoreCase(this.getName().getString()) || "jean".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.ENDER_DRAGON_DEATH;
         } else if ("mekanism".equalsIgnoreCase(this.getName().getString()) || "mekanized".equalsIgnoreCase(this.getName().getString()) || "create".equalsIgnoreCase(this.getName().getString())) {
@@ -345,7 +345,7 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
         if ("awsome".equalsIgnoreCase(this.getName().getString()) || "carltheawsome".equalsIgnoreCase(this.getName().getString())
                 || "dejojo".equalsIgnoreCase(this.getName().getString()) || "dejojotheawsome".equalsIgnoreCase(this.getName().getString())) {
             // placeholder - return SoundEvents.COD_HURT;
-            return CarlMod.CARL_QUACK.get();
+            return CarlMod.CARL_WAMP.get();
         } else if ("dragon".equalsIgnoreCase(this.getName().getString()) || "ender_dragon".equalsIgnoreCase(this.getName().getString()) || "jean".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.ENDER_DRAGON_HURT;
         } else if ("mekanism".equalsIgnoreCase(this.getName().getString()) || "mekanized".equalsIgnoreCase(this.getName().getString()) || "create".equalsIgnoreCase(this.getName().getString())) {

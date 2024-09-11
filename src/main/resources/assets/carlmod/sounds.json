@@ -4,5 +4,11 @@
     "sounds": [
       "carlmod:quack"
     ]
+  },
+  "wamp": {
+    "subtitle": "sounds.carlmod.wamp",
+    "sounds": [
+      "carlmod:wamp"
+    ]
   }
 }
