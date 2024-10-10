@@ -13,7 +13,11 @@ import software.bernie.geckolib.model.data.EntityModelData;
 public class CarlDuckEntityModel extends GeoModel<CarlDuckEntity> {
     @Override
     public ResourceLocation getModelResource(CarlDuckEntity object) {
-        return new ResourceLocation(CarlMod.MODID, "geo/carl.geo.json");
+        if ("god".equalsIgnoreCase(object.getName().getString()) || "angel".equalsIgnoreCase(object.getName().getString())
+                || "biblically_accurate".equalsIgnoreCase(object.getName().toString()) || "biblically_accurate_carl".equalsIgnoreCase(object.getName().getString())) {
+            return new ResourceLocation(CarlMod.MODID, "geo/biblically_accurate_carl.geo.json");
+        }
+        else return new ResourceLocation(CarlMod.MODID, "geo/carl.geo.json");
     }
 
     @Override
@@ -23,7 +27,11 @@ public class CarlDuckEntityModel extends GeoModel<CarlDuckEntity> {
 
     @Override
     public ResourceLocation getAnimationResource(CarlDuckEntity animatable) {
-        return new ResourceLocation(CarlMod.MODID, "animations/carl.animation.json");
+        if ("god".equalsIgnoreCase(animatable.getName().getString()) || "angel".equalsIgnoreCase(animatable.getName().getString())
+                || "biblically_accurate".equalsIgnoreCase(animatable.getName().getString()) || "biblically_accurate_carl".equalsIgnoreCase(animatable.getName().getString())) {
+            return new ResourceLocation(CarlMod.MODID, "animations/biblically_accurate_carl.animation.json");
+        }
+        else return new ResourceLocation(CarlMod.MODID, "animations/carl.animation.json");
     }
 
     @Override

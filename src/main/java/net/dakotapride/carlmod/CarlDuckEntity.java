@@ -264,6 +264,8 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
             event.getController().setAnimation(RawAnimation.begin().then("animation.carl.idle", Animation.LoopType.LOOP));
         }
 
+        // Need to add specific animations for biblically accurate version
+
         return PlayState.CONTINUE;
     }
 
