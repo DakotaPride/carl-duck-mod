@@ -114,7 +114,7 @@ public class CarlMod {
 
 
     public static final RegistryObject<Block> CARL_BLOCK = BLOCKS.register("carl", () -> new CarlBlock(BlockBehaviour.Properties.of(Material.WOOL).noOcclusion().instabreak().sound(CarlMod.CARL_GENERIC_SOUNDS)));
-    public static final RegistryObject<Item> CARL_ITEM = ITEMS.register("carl", () -> new BlockItem(CARL_BLOCK.get(), new Item.Properties().tab(ModCreativeModeTab.CARL_MOD)));
+    public static final RegistryObject<Item> CARL_ITEM = ITEMS.register("carl", () -> new CarlBlockItem(CARL_BLOCK.get(), new Item.Properties().fireResistant().tab(ModCreativeModeTab.CARL_MOD)));
     public static final RegistryObject<Item> DUCK_BUCKET = ITEMS.register("duck_bucket", () -> new MobBucketItem(CarlMod.CARL_ENTITY, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1).tab(ModCreativeModeTab.CARL_MOD)));
 
     public static final RegistryObject<Item> CARL_SPAWN_EGG = ITEMS.register("carl_spawn_egg", () -> new ForgeSpawnEggItem(CarlMod.CARL_ENTITY, 0xFFDC41, 0xFFC844, new Item.Properties().tab(ModCreativeModeTab.CARL_MOD)));
