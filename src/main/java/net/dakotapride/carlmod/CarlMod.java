@@ -104,7 +104,7 @@ public class CarlMod {
 
 
     public static final RegistryObject<Block> CARL_BLOCK = BLOCKS.register("carl", () -> new CarlBlock(BlockBehaviour.Properties.of().noOcclusion().instabreak().sound(CarlMod.CARL_GENERIC_SOUNDS)));
-    public static final RegistryObject<Item> CARL_ITEM = ITEMS.register("carl", () -> new BlockItem(CARL_BLOCK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CARL_ITEM = ITEMS.register("carl", () -> new CarlBlockItem(CARL_BLOCK.get(), new Item.Properties().fireResistant()));
     // Stupid shit - smithing template for a bucket of duck... worth it
     public static final RegistryObject<Item> CARL_TEMPLATE = ITEMS.register("carl_template", CarlTemplateUtils::createCarlUpgradeTemplate);
     public static final RegistryObject<Item> DUCK_BUCKET = ITEMS.register("duck_bucket", () -> new MobBucketItem(CarlMod.CARL_ENTITY, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)));
