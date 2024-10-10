@@ -41,6 +41,10 @@ public class CarlDuckEntityRenderer extends GeoEntityRenderer<CarlDuckEntity> {
                 : ("dragon".equalsIgnoreCase(instance.getName().getString()) || "ender_dragon".equalsIgnoreCase(instance.getName().getString()) || "jean".equalsIgnoreCase(instance.getName().getString())) ?
                 new ResourceLocation(CarlMod.MODID, "textures/entity/dragon.png")
 
+                : ("god".equalsIgnoreCase(instance.getName().getString()) || "angel".equalsIgnoreCase(instance.getName().getString())
+                || "biblically_accurate".equalsIgnoreCase(instance.getName().getString()) || "biblically_accurate_carl".equalsIgnoreCase(instance.getName().getString())) ?
+                new ResourceLocation(CarlMod.MODID, "textures/entity/biblically_accurate_carl.png")
+
                 : new ResourceLocation(CarlMod.MODID, "textures/entity/carl.png");
     }
 }

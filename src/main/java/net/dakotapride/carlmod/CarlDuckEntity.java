@@ -266,6 +266,8 @@ public class CarlDuckEntity extends TamableAnimal implements IAnimatable, Bucket
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.carl.idle", true));
         }
 
+        // Need to add specific animations for biblically accurate version
+
         return PlayState.CONTINUE;
     }
 
