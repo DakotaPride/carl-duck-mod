@@ -320,6 +320,8 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
             return SoundEvents.ENDER_DRAGON_AMBIENT;
         } else if ("mekanism".equalsIgnoreCase(this.getName().getString()) || "mekanized".equalsIgnoreCase(this.getName().getString()) || "create".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.IRON_GOLEM_REPAIR;
+        } else if ("bok_choy".equalsIgnoreCase(this.getName().getString()) || "bok_choyo".equalsIgnoreCase(this.getName().getString())) {
+            return CarlMod.CARL_QUACK_PLANT.get();
         } else {
             return CarlMod.CARL_QUACK.get();
         }
@@ -336,6 +338,8 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
             return SoundEvents.ENDER_DRAGON_DEATH;
         } else if ("mekanism".equalsIgnoreCase(this.getName().getString()) || "mekanized".equalsIgnoreCase(this.getName().getString()) || "create".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.IRON_GOLEM_DEATH;
+        } else if ("bok_choy".equalsIgnoreCase(this.getName().getString()) || "bok_choyo".equalsIgnoreCase(this.getName().getString())) {
+            return CarlMod.CARL_QUACK_PLANT.get();
         } else {
             return CarlMod.CARL_QUACK.get();
         }
@@ -352,6 +356,8 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
             return SoundEvents.ENDER_DRAGON_HURT;
         } else if ("mekanism".equalsIgnoreCase(this.getName().getString()) || "mekanized".equalsIgnoreCase(this.getName().getString()) || "create".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.IRON_GOLEM_HURT;
+        } else if ("bok_choy".equalsIgnoreCase(this.getName().getString()) || "bok_choyo".equalsIgnoreCase(this.getName().getString())) {
+            return CarlMod.CARL_QUACK_PLANT.get();
         } else {
             return CarlMod.CARL_QUACK.get();
         }

@@ -5,6 +5,12 @@
       "carlmod:quack"
     ]
   },
+  "quack_plant": {
+    "subtitle": "sounds.carlmod.quack.plant",
+    "sounds": [
+      "carlmod:quack_plant"
+    ]
+  },
   "wamp": {
     "subtitle": "sounds.carlmod.wamp",
     "sounds": [

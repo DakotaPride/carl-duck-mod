@@ -22,6 +22,10 @@ public class CarlDuckEntityModel extends GeoModel<CarlDuckEntity> {
             return new ResourceLocation(CarlMod.MODID, "geo/braincells.geo.json");
         } else if ("hooty".equalsIgnoreCase(object.getName().getString()) || "hootsifer".equalsIgnoreCase(object.getName().getString())) {
             return new ResourceLocation(CarlMod.MODID, "geo/hoot.geo.json");
+        } else if ("bok_choy".equalsIgnoreCase(object.getName().getString()) || "bok_choyo".equalsIgnoreCase(object.getName().getString())) {
+            return new ResourceLocation(CarlMod.MODID, "geo/bok_choy.geo.json");
+        } else if ("egg".equalsIgnoreCase(object.getName().getString())) {
+            return new ResourceLocation(CarlMod.MODID, "geo/egg.geo.json");
         }
         else return new ResourceLocation(CarlMod.MODID, "geo/carl.geo.json");
     }

@@ -117,6 +117,7 @@ public class CarlMod {
     // public static final RegistryObject<Item> ANDESITE_HELMET = ITEMS.register("andesite_helmet", () -> new CompatItem(CompatItem.ModIds.CREATE.id, new Item.Properties().tab(ModCreativeModeTab.CARL_MOD)));
 
     public static final RegistryObject<SoundEvent> CARL_QUACK = SOUNDS.register("quack", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "quack")));
+    public static final RegistryObject<SoundEvent> CARL_QUACK_PLANT = SOUNDS.register("quack_plant", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "quack_plant")));
     public static final RegistryObject<SoundEvent> CARL_WAMP = SOUNDS.register("wamp", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "wamp")));
 
     public static final ForgeSoundType CARL_GENERIC_SOUNDS = new ForgeSoundType(1f, 1f,
