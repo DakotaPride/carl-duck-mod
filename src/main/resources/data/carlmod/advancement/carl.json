@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "carlmod:carl"
+      "id": "carlmod:carl"
     },
     "title": {
       "translate": "advancement.carlmod.obtain_carl.title"

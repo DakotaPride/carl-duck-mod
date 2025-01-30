@@ -63,8 +63,8 @@ public class CarlMod {
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
-    public static final DeferredRegister<PaintingVariant> PAINTING_VARIANTS =
-            DeferredRegister.create(Registries.PAINTING_VARIANT, MODID);
+//    public static final DeferredRegister<PaintingVariant> PAINTING_VARIANTS =
+//            DeferredRegister.create(Registries.PAINTING_VARIANT, MODID);
 
     // public static final RegistryObject<CreativeModeTab> CARL_TAB = CREATIVE_MODE_TABS.register("carl", ModCreativeModeTab::new);
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CARL_TAB = CREATIVE_MODE_TABS.register("carl",
@@ -137,10 +137,10 @@ public class CarlMod {
 
     // Easter Egg
 
-    public static final DeferredHolder<PaintingVariant, PaintingVariant> DEJOJO_THE_PIXELATED = PAINTING_VARIANTS.register("dejojo_the_pixelated",
-            () -> new PaintingVariant(16, 16, ResourceLocation.fromNamespaceAndPath(MODID, "dejojo_the_pixelated")));
-    public static final DeferredHolder<PaintingVariant, PaintingVariant> DEJOJO_THE_PIXELATED_64x = PAINTING_VARIANTS.register("dejojo_the_pixelated_64px",
-            () -> new PaintingVariant(64, 64, ResourceLocation.fromNamespaceAndPath(MODID, "dejojo_the_pixelated_64x")));
+//    public static final DeferredHolder<PaintingVariant, PaintingVariant> DEJOJO_THE_PIXELATED = PAINTING_VARIANTS.register("dejojo_the_pixelated",
+//            () -> new PaintingVariant(16, 16, ResourceLocation.fromNamespaceAndPath(MODID, "dejojo_the_pixelated")));
+//    public static final DeferredHolder<PaintingVariant, PaintingVariant> DEJOJO_THE_PIXELATED_64x = PAINTING_VARIANTS.register("dejojo_the_pixelated_64px",
+//            () -> new PaintingVariant(64, 64, ResourceLocation.fromNamespaceAndPath(MODID, "dejojo_the_pixelated_64x")));
 
 
 
@@ -164,7 +164,7 @@ public class CarlMod {
 
         ENTITY_TYPES.register(modEventBus);
 
-        PAINTING_VARIANTS.register(modEventBus);
+        //PAINTING_VARIANTS.register(modEventBus);
 
         //LootModifiers.register(modEventBus);
 
