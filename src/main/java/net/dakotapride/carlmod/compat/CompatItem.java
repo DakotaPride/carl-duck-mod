@@ -21,7 +21,7 @@ public class CompatItem extends Item {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack itemStack, TooltipContext ctx, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
 
         if (Objects.equals(modId, ModIds.CREATE.id)) {
             components.add(Component.translatable("text.carlmod.required_mod.create").withStyle(ChatFormatting.GRAY));

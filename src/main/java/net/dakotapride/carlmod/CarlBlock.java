@@ -1,5 +1,6 @@
 package net.dakotapride.carlmod;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -8,13 +9,11 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.Equipable;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
@@ -30,7 +29,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -103,15 +101,20 @@ public class CarlBlock extends HorizontalDirectionalBlock implements Equipable {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable BlockGetter getter, List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.translatable("text.carlmod.space_duck").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
-        tooltip.add(Component.literal(""));
-        tooltip.add(Component.translatable("text.carlmod.equippable.head").withStyle(ChatFormatting.BLUE));
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+        return null;
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
         return CarlMod.CARL_ITEM.get().getDefaultInstance();
+    }
+
+    @Override
+    public void appendHoverText(@NotNull ItemStack stack, Item.TooltipContext context, List<Component> tooltip, @NotNull TooltipFlag flag) {
+        tooltip.add(Component.translatable("text.carlmod.space_duck").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.literal(""));
+        tooltip.add(Component.translatable("text.carlmod.equippable.head").withStyle(ChatFormatting.BLUE));
     }
 
     @Override
@@ -149,8 +152,8 @@ public class CarlBlock extends HorizontalDirectionalBlock implements Equipable {
     }
 
     @Override
-    public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult result) {
-        // player.playSound(null, pos, CarlMod.CARL_QUACK.get(), SoundSource.BLOCKS, 1.3f, 1f);
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        InteractionHand hand = player.getUsedItemHand();
 
         if (player.isCrouching()) {
             if(!level.isClientSide() && hand == InteractionHand.MAIN_HAND) {

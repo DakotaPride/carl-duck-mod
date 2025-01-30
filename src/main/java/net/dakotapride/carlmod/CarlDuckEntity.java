@@ -28,20 +28,19 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.PathFinder;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.NotNull;
+import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animatable.instance.SingletonAnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.animation.*;
 
 import javax.annotation.Nullable;
 
@@ -58,19 +57,25 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
     protected CarlDuckEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
         super(entityType, level);
         this.level = level;
-        this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
+        this.setPathfindingMalus(PathType.WATER, 0.0F);
         // this.maxUpStep = 1.0F;
     }
 
     @Override
-    public boolean canBeLeashed(@NotNull Player player) {
+    public boolean canBeLeashed() {
         return true;
     }
 
     @Override
-    public boolean canBreatheUnderwater() {
-        return true;
+    public void baseTick() {
+        super.baseTick();
+        this.setAirSupply(300);
     }
+
+    //    @Override
+//    public boolean canBreatheUnderwater() {
+//        return true;
+//    }
 
     @Override
     public boolean isPushedByFluid() {
@@ -97,7 +102,7 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.4D));
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
-        this.goalSelector.addGoal(3, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F, false));
+        this.goalSelector.addGoal(3, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
         this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.of(Tags.Items.SEEDS), false));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.7D));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
@@ -122,8 +127,8 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
         }
 
         @Override
-        protected boolean hasValidPathType(@NotNull BlockPathTypes types) {
-            return types == BlockPathTypes.WATER || super.hasValidPathType(types);
+        protected boolean hasValidPathType(@NotNull PathType types) {
+            return types == PathType.WATER || super.hasValidPathType(types);
         }
 
         @Override
@@ -171,11 +176,12 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        // this.entityData.define(DATA_INTERESTED_ID, false);
-        this.entityData.define(FROM_BUCKET, false);
-        this.entityData.define(SITTING, false);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        //this.entityData.set(FROM_BUCKET, false);
+        //this.entityData.set(SITTING, false);
+        builder.define(FROM_BUCKET, false);
+        builder.define(SITTING, false);
     }
 
     @Override
@@ -194,12 +200,11 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor serverLevelAccessor, @NotNull DifficultyInstance difficultyInstance, @NotNull MobSpawnType spawnType, @Nullable SpawnGroupData groupData, @Nullable CompoundTag tag) {
-        // boolean flag = false;
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
         if (spawnType == MobSpawnType.BUCKET) {
-            return groupData;
+            return spawnGroupData;
         } else {
-            return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, spawnType, groupData, tag);
+            return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
         }
     }
 
@@ -222,7 +227,7 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
                     itemstack.shrink(1);
                 }
 
-                if (!ForgeEventFactory.onAnimalTame(this, player)) {
+                if (!EventHooks.onAnimalTame(this, player)) {
                     if (!this.level.isClientSide) {
                         super.tame(player);
                         this.navigation.recomputePath();
