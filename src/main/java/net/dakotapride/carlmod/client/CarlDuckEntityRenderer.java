@@ -87,6 +87,9 @@ public class CarlDuckEntityRenderer extends GeoEntityRenderer<CarlDuckEntity> {
                 : ("breeze".equalsIgnoreCase(instance.getName().getString())) ?
                 ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/breeze.png")
 
+                : ("cardboard".equalsIgnoreCase(instance.getName().getString())) ?
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/cardboard.png")
+
                 : ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/carl.png");
     }
 

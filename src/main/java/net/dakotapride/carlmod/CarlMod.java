@@ -92,6 +92,7 @@ public class CarlMod {
             output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "mekanism"));
             output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "mekanized"));
             output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "create"));
+            output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "cardboard"));
             output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "adorable"));
             output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "deaudie"));
             output.accept(getNameTag(Items.NAME_TAG.getDefaultInstance(), "audrey"));
