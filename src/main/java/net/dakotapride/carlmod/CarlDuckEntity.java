@@ -89,7 +89,8 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
                 // .add(Attributes.ATTACK_DAMAGE, 0.0f)
                 // .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.FOLLOW_RANGE, 20.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.20F).build();
+                .add(Attributes.MOVEMENT_SPEED, 0.20F)
+                .add(Attributes.TEMPT_RANGE, 10.0F).build();
     }
 
     @Override
@@ -103,7 +104,7 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.4D));
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(3, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.of(Tags.Items.SEEDS), false));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, stack -> stack.is(Tags.Items.SEEDS), false));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.7D));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
@@ -200,11 +201,11 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
-        if (spawnType == MobSpawnType.BUCKET) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData spawnGroupData) {
+        if (spawnReason == EntitySpawnReason.BUCKET) {
             return spawnGroupData;
         } else {
-            return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+            return super.finalizeSpawn(level, difficulty, spawnReason, spawnGroupData);
         }
     }
 

@@ -9,19 +9,20 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -33,7 +34,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class CarlBlock extends HorizontalDirectionalBlock implements Equipable {
+public class CarlBlock extends HorizontalDirectionalBlock {
     VoxelShape north = Stream.of(
             Block.box(5.5, 4.5, 2.5, 10.5, 9.5, 7.5),
             Block.box(6, 5, 3, 10, 9, 7),
@@ -91,13 +92,13 @@ public class CarlBlock extends HorizontalDirectionalBlock implements Equipable {
             Block.box(5.5, 1, 11, 11.5, 5, 12),
             Block.box(5.5, 1, 4, 11.5, 5, 5)
     ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+    public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty BIG_HELMET = BooleanProperty.create("big_helmet");
 
     public CarlBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(BIG_HELMET, false));
-        DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
+        //DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
     }
 
     @Override
@@ -106,8 +107,8 @@ public class CarlBlock extends HorizontalDirectionalBlock implements Equipable {
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
-        return CarlMod.CARL_ITEM.get().getDefaultInstance();
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {
+        return CarlMod.CARL_BLOCK.get().asItem().getDefaultInstance();
     }
 
     @Override
@@ -163,11 +164,6 @@ public class CarlBlock extends HorizontalDirectionalBlock implements Equipable {
             player.playSound(CarlMod.CARL_QUACK.get(), 0.8F, 1.0F);
         }
 
-        return InteractionResult.sidedSuccess(level.isClientSide);
-    }
-
-    @Override
-    public @NotNull EquipmentSlot getEquipmentSlot() {
-        return EquipmentSlot.HEAD;
+        return InteractionResult.SUCCESS;
     }
 }

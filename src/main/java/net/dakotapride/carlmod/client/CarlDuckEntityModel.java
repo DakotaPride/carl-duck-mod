@@ -4,15 +4,17 @@ package net.dakotapride.carlmod.client;
 import net.dakotapride.carlmod.CarlDuckEntity;
 import net.dakotapride.carlmod.CarlMod;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
+import software.bernie.geckolib.renderer.GeoRenderer;
 
 public class CarlDuckEntityModel extends GeoModel<CarlDuckEntity> {
     @Override
-    public ResourceLocation getModelResource(CarlDuckEntity object) {
+    public ResourceLocation getModelResource(CarlDuckEntity object, @Nullable GeoRenderer<CarlDuckEntity> renderer) {
         if ("god".equalsIgnoreCase(object.getName().getString()) || "angel".equalsIgnoreCase(object.getName().getString())
                 || "biblically_accurate".equalsIgnoreCase(object.getName().toString()) || "biblically_accurate_carl".equalsIgnoreCase(object.getName().getString())) {
             return ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "geo/biblically_accurate_carl.geo.json");
@@ -31,7 +33,7 @@ public class CarlDuckEntityModel extends GeoModel<CarlDuckEntity> {
     }
 
     @Override
-    public ResourceLocation getTextureResource(CarlDuckEntity object) {
+    public ResourceLocation getTextureResource(CarlDuckEntity object, @Nullable GeoRenderer<CarlDuckEntity> renderer) {
         return ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/carl.png");
     }
 
