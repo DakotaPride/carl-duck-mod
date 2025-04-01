@@ -7,15 +7,9 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "minecraft:gold_ingot"
-    },
-    "C": {
-      "item": "minecraft:snow_block"
-    },
-    "S": {
-      "item": "carlmod:carl_template"
-    }
+    "#": "minecraft:gold_ingot",
+    "C": "minecraft:snow_block",
+    "S": "carlmod:carl_template"
   },
   "result": {
     "id": "carlmod:carl_template",
