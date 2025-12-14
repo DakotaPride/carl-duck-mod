@@ -5,8 +5,11 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
@@ -14,14 +17,15 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DispenserBlock;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BellBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -30,10 +34,12 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Stream;
 
 public class CarlBlock extends HorizontalDirectionalBlock implements Equipable {
+    public static final MapCodec<CarlBlock> CODEC = simpleCodec(CarlBlock::new);
     VoxelShape north = Stream.of(
             Block.box(5.5, 4.5, 2.5, 10.5, 9.5, 7.5),
             Block.box(6, 5, 3, 10, 9, 7),
@@ -93,21 +99,48 @@ public class CarlBlock extends HorizontalDirectionalBlock implements Equipable {
     ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty BIG_HELMET = BooleanProperty.create("big_helmet");
+    public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 
     public CarlBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(BIG_HELMET, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(BIG_HELMET, false).setValue(POWERED, false));
         DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
     }
 
     @Override
     protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return null;
+        return CODEC;
     }
 
     @Override
     public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
         return CarlMod.CARL_ITEM.get().getDefaultInstance();
+    }
+
+    @Override
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+        boolean flag = level.hasNeighborSignal(pos);
+        if (flag != state.getValue(POWERED)) {
+            if (flag) {
+                this.attemptToQuack(level, pos);
+            }
+
+            level.setBlock(pos, state.setValue(POWERED, flag), 3);
+        }
+    }
+
+    public boolean attemptToQuack(Level level, BlockPos pos) {
+        return this.attemptToQuack(null, level, pos);
+    }
+
+    public boolean attemptToQuack(@Nullable Entity entity, Level level, BlockPos pos) {
+        if (!level.isClientSide) {
+            level.playSound(null, pos, CarlMod.CARL_QUACK.get(), SoundSource.BLOCKS, 1.2F, 1.0F);
+            level.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -129,7 +162,7 @@ public class CarlBlock extends HorizontalDirectionalBlock implements Equipable {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, BIG_HELMET);
+        builder.add(FACING, BIG_HELMET, POWERED);
     }
 
     @Override
