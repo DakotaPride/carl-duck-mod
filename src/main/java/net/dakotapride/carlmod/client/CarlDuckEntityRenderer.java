@@ -21,76 +21,76 @@ public class CarlDuckEntityRenderer extends GeoEntityRenderer<CarlDuckEntity> {
         return instance.hasCustomName() &&
 
                 ("awsome".equalsIgnoreCase(instance.getName().getString()) || "carltheawsome".equalsIgnoreCase(instance.getName().getString())) ?
-                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/carltheawsome_1.png")
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/carltheawsome_1.png")
 
                 : ("dejojo".equalsIgnoreCase(instance.getName().getString()) || "dejojotheawsome".equalsIgnoreCase(instance.getName().getString())) ?
-                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/carltheawsome.png")
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/carltheawsome.png")
 
                 : ("garnished".equalsIgnoreCase(instance.getName().getString())) ?
-                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/garnished.png")
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/garnished.png")
 
                 : ("bare_bones".equalsIgnoreCase(instance.getName().getString()) || "barebones".equalsIgnoreCase(instance.getName().getString())) ?
-                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/barebones.png")
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/barebones.png")
 
                 : ("mekanism".equalsIgnoreCase(instance.getName().getString()) || "mekanized".equalsIgnoreCase(instance.getName().getString())) ?
-                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/mekanism.png")
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/mekanism.png")
 
                 : ("create".equalsIgnoreCase(instance.getName().getString())) ?
-                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/create.png")
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/create.png")
 
                 : ("adorable".equalsIgnoreCase(instance.getName().getString()) || "deaudie".equalsIgnoreCase(instance.getName().getString()) || "audrey".equalsIgnoreCase(instance.getName().getString())) ?
-                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/pink.png")
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/pink.png")
 
                 : ("dragon".equalsIgnoreCase(instance.getName().getString()) || "ender_dragon".equalsIgnoreCase(instance.getName().getString()) || "jean".equalsIgnoreCase(instance.getName().getString())) ?
-                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/dragon.png")
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/dragon.png")
 
                 : ("god".equalsIgnoreCase(instance.getName().getString()) || "angel".equalsIgnoreCase(instance.getName().getString())
                 || "biblically_accurate".equalsIgnoreCase(instance.getName().getString()) || "biblically_accurate_carl".equalsIgnoreCase(instance.getName().getString())) ?
-                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/biblically_accurate_carl.png")
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/biblically_accurate_carl.png")
 
                 : ("lamb".equalsIgnoreCase(instance.getName().getString()) || "cult_leader".equalsIgnoreCase(instance.getName().getString())) ?
-                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/lamb.png")
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/lamb.png")
 
                 : ("steel_spacesuit".equalsIgnoreCase(instance.getName().getString()) || "steel_space_suit".equalsIgnoreCase(instance.getName().getString())) ?
-                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/steel_spacesuit.png")
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/steel_spacesuit.png")
 
                 : ("calorite_spacesuit".equalsIgnoreCase(instance.getName().getString()) || "calorite_space_suit".equalsIgnoreCase(instance.getName().getString())) ?
-                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/calorite_spacesuit.png")
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/calorite_spacesuit.png")
 
                 : ("netherite_spacesuit".equalsIgnoreCase(instance.getName().getString()) || "netherite_space_suit".equalsIgnoreCase(instance.getName().getString())) ?
-                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/netherite_spacesuit.png")
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/netherite_spacesuit.png")
 
                 : ("braincell".equalsIgnoreCase(instance.getName().getString()) || "braincells".equalsIgnoreCase(instance.getName().getString())) ?
-                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/braincells.png")
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/braincells.png")
 
                 : ("copycat".equalsIgnoreCase(instance.getName().getString()) || "copycats".equalsIgnoreCase(instance.getName().getString())) ?
-                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/copycats.png")
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/copycats.png")
 
 //                : ("trans_rights".equalsIgnoreCase(instance.getName().getString()) || "transgender".equalsIgnoreCase(instance.getName().getString())) ?
 //                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/trans_rights.png")
 
                 : ("helmetless".equalsIgnoreCase(instance.getName().getString())) ?
-                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/helmetless_carl.png")
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/helmetless_carl.png")
 
                 : ("hooty".equalsIgnoreCase(instance.getName().getString()) || "hootsifer".equalsIgnoreCase(instance.getName().getString())) ?
-                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/hoot.png")
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/hoot.png")
 
                 : ("bok_choy".equalsIgnoreCase(instance.getName().getString()) || "bok_choyo".equalsIgnoreCase(instance.getName().getString())) ?
-                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/bok_choy.png")
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/bok_choy.png")
 
                 : ("egg".equalsIgnoreCase(instance.getName().getString())) ?
-                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/egg.png")
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/egg.png")
 
                 : ("untitled_duck".equalsIgnoreCase(instance.getName().getString()) || "alt_duck".equalsIgnoreCase(instance.getName().getString())) ?
-                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/untitled_duck.png")
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/untitled_duck.png")
 
                 : ("breeze".equalsIgnoreCase(instance.getName().getString())) ?
-                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/breeze.png")
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/breeze.png")
 
                 : ("cardboard".equalsIgnoreCase(instance.getName().getString())) ?
-                ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/cardboard.png")
+                ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/cardboard.png")
 
-                : ResourceLocation.fromNamespaceAndPath(CarlMod.MODID, "textures/entity/carl.png");
+                : ResourceLocation.fromNamespaceAndPath(CarlMod.MOD_ID, "textures/entity/carl.png");
     }
 
     @Override

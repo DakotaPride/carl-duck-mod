@@ -1,4 +1,8 @@
 {
+  "carlmod.configuration.configs": "Carl mod configs",
+  "carlmod.configuration.volume": "The volume of the *quack* sound from right-clicking a Carl block",
+  "carlmod.configuration.pitch": "The pitch of the *quack* sound from right-clicking a Carl block",
+
   "block.carlmod.carl": "Carl",
   "item.carlmod.duck_bucket": "Bucket of Carl",
   "item.carlmod.carl_spawn_egg": "Carl Spawn Egg",

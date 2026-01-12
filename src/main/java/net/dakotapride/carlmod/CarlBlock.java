@@ -1,6 +1,7 @@
 package net.dakotapride.carlmod;
 
 import com.mojang.serialization.MapCodec;
+import net.dakotapride.carlmod.config.CarlConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -135,7 +136,7 @@ public class CarlBlock extends HorizontalDirectionalBlock implements Equipable {
 
     public boolean attemptToQuack(@Nullable Entity entity, Level level, BlockPos pos) {
         if (!level.isClientSide) {
-            level.playSound(null, pos, CarlMod.CARL_QUACK.get(), SoundSource.BLOCKS, 1.2F, 1.0F);
+            level.playSound(null, pos, CarlMod.CARL_QUACK.get(), SoundSource.BLOCKS, CarlConfig.QUACK_RIGHT_CLICK_VOLUME.get().floatValue(), CarlConfig.QUACK_RIGHT_CLICK_PITCH.get().floatValue());
             level.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
             return true;
         } else {
@@ -193,7 +194,7 @@ public class CarlBlock extends HorizontalDirectionalBlock implements Equipable {
                 level.setBlock(pos, state.cycle(BIG_HELMET),3);
             }
         } else if (!player.isCrouching()) {
-            player.playSound(CarlMod.CARL_QUACK.get(), 0.8F, 1.0F);
+            player.playSound(CarlMod.CARL_QUACK.get(), CarlConfig.QUACK_RIGHT_CLICK_VOLUME.get().floatValue(), CarlConfig.QUACK_RIGHT_CLICK_PITCH.get().floatValue());
         }
 
         return InteractionResult.sidedSuccess(level.isClientSide);

@@ -3,6 +3,7 @@ package net.dakotapride.carlmod;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.MapCodec;
 import net.dakotapride.carlmod.client.CarlDuckEntityRenderer;
+import net.dakotapride.carlmod.config.CarlConfig;
 import net.dakotapride.carlmod.neoforge.AddItemLootModifier;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -15,19 +16,16 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.alchemy.PotionContents;
-import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
@@ -43,25 +41,25 @@ import org.slf4j.Logger;
 import java.util.function.Supplier;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod(CarlMod.MODID)
+@Mod(CarlMod.MOD_ID)
 @SuppressWarnings("unused")
 public class CarlMod {
     // Define mod id in a common place for everything to reference
     // change to "carlmod"
-    public static final String MODID = "carlmod";
+    public static final String MOD_ID = "carlmod";
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registries.BLOCK, MODID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registries.BLOCK, MOD_ID);
     //public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, MODID);
     // Create a Deferred Register to hold Items which will all be registered under the "examplemod" namespace
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, MODID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, MOD_ID);
 
-    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, MODID);
+    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, MOD_ID);
 
-    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, MODID);
+    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, MOD_ID);
 
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
 
 //    public static final DeferredRegister<PaintingVariant> PAINTING_VARIANTS =
 //            DeferredRegister.create(Registries.PAINTING_VARIANT, MODID);
@@ -122,9 +120,9 @@ public class CarlMod {
     // public static final RegistryObject<Item> INCOMPLETE_CARL_ITEM = ITEMS.register("incomplete_carl", () -> new CompatItem(CompatItem.ModIds.CREATE.id, new Item.Properties()));
     // public static final RegistryObject<Item> ANDESITE_HELMET = ITEMS.register("andesite_helmet", () -> new CompatItem(CompatItem.ModIds.CREATE.id, new Item.Properties().tab(ModCreativeModeTab.CARL_MOD)));
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> CARL_QUACK = SOUNDS.register("quack", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(MODID, "quack")));
-    public static final DeferredHolder<SoundEvent, SoundEvent> CARL_QUACK_PLANT = SOUNDS.register("quack_plant", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(MODID, "quack_plant")));
-    public static final DeferredHolder<SoundEvent, SoundEvent> CARL_WAMP = SOUNDS.register("wamp", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(MODID, "wamp")));
+    public static final DeferredHolder<SoundEvent, SoundEvent> CARL_QUACK = SOUNDS.register("quack", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(MOD_ID, "quack")));
+    public static final DeferredHolder<SoundEvent, SoundEvent> CARL_QUACK_PLANT = SOUNDS.register("quack_plant", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(MOD_ID, "quack_plant")));
+    public static final DeferredHolder<SoundEvent, SoundEvent> CARL_WAMP = SOUNDS.register("wamp", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(MOD_ID, "wamp")));
 
     public static final DeferredSoundType CARL_GENERIC_SOUNDS = new DeferredSoundType(1f, 1f,
             CARL_QUACK, () -> SoundEvents.CALCITE_STEP, CARL_QUACK,
@@ -134,7 +132,7 @@ public class CarlMod {
             ENTITY_TYPES.register("carl",
                     () -> EntityType.Builder.of(CarlDuckEntity::new, MobCategory.MISC)
                             .sized(0.4f, 0.4f)
-                            .build(ResourceLocation.fromNamespaceAndPath(MODID, "carl").toString()));
+                            .build(ResourceLocation.fromNamespaceAndPath(MOD_ID, "carl").toString()));
 
     // Easter Egg
 
@@ -146,7 +144,7 @@ public class CarlMod {
 
 
     public static final DeferredRegister<MapCodec<? extends IGlobalLootModifier>> GLOBAL_LOOT_MODIFIER_SERIALIZERS =
-            DeferredRegister.create(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, MODID);
+            DeferredRegister.create(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, MOD_ID);
 
     public static final Supplier<MapCodec<AddItemLootModifier>> ADD_ITEM_MODIFIER =
             GLOBAL_LOOT_MODIFIER_SERIALIZERS.register("add_item", () -> AddItemLootModifier.CODEC);
@@ -174,6 +172,8 @@ public class CarlMod {
         // ModCreativeModeTab.load();
         // Register the item to a creative tab
         CREATIVE_MODE_TABS.register(modEventBus);
+
+        modContainer.registerConfig(ModConfig.Type.CLIENT, CarlConfig.SPEC, "carlmod-client.toml");
 
         //GeckoLib.initialize();
 
@@ -214,7 +214,7 @@ public class CarlMod {
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD)
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
