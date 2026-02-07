@@ -173,7 +173,7 @@ public class CarlMod {
         // Register the item to a creative tab
         CREATIVE_MODE_TABS.register(modEventBus);
 
-        modContainer.registerConfig(ModConfig.Type.CLIENT, CarlConfig.SPEC, "carlmod-client.toml");
+        modContainer.registerConfig(ModConfig.Type.SERVER, CarlConfig.SPEC, "carlmod-server.toml");
 
         //GeckoLib.initialize();
 
