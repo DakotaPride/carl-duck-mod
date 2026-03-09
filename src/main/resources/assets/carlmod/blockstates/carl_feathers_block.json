@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "carlmod:block/carl_feathers_block"
+    }
+  }
+}

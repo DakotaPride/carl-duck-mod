@@ -1,5 +1,6 @@
 package net.dakotapride.carlmod.client;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.dakotapride.carlmod.CarlDuckEntity;
 import net.dakotapride.carlmod.CarlMod;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -94,9 +95,10 @@ public class CarlDuckEntityRenderer extends GeoEntityRenderer<CarlDuckEntity> {
     }
 
     @Override
-    public RenderType getRenderType(CarlDuckEntity animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
-        if ("steel_spacesuit".equalsIgnoreCase(animatable.getName().getString()) || "calorite_spacesuit".equalsIgnoreCase(animatable.getName().getString()) || "netherite_spacesuit".equalsIgnoreCase(animatable.getName().getString())) {
-            return RenderType.entityTranslucent(texture);
-        } else return super.getRenderType(animatable, texture, bufferSource, partialTick);
+    public void render(CarlDuckEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+        if (entity.isBaby())
+            poseStack.scale(0.5F, 0.5F, 0.5F);
+
+        super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
     }
 }

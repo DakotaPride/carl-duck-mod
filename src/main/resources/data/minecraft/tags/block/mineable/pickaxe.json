@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "carlmod:angelic_ring_block",
+    "carlmod:beak_block",
+    "carlmod:untitled_beak_block",
+    "carlmod:helmet_block",
+    "carlmod:outer_helmet_block"
+  ]
+}

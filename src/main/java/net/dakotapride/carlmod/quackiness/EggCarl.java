@@ -1,6 +1,6 @@
-package net.dakotapride.carlmod;
+package net.dakotapride.carlmod.quackiness;
 
-import net.dakotapride.carlmod.quackiness.BiblicallyAccurateCarlBoss;
+import net.dakotapride.carlmod.CarlMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -14,8 +14,6 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -23,7 +21,6 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -35,6 +32,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.PathFinder;
 import net.minecraft.world.level.pathfinder.PathType;
@@ -51,27 +49,22 @@ import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.animation.AnimationState;
 
 import javax.annotation.Nullable;
-import java.util.UUID;
 
-public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketable {
+public class EggCarl extends TamableAnimal implements GeoEntity {
     Level level;
     private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
-    private static final EntityDataAccessor<Boolean> DATA_CONVERTING_ID = SynchedEntityData.defineId(CarlDuckEntity.class, EntityDataSerializers.BOOLEAN);
-
-    private int carlConversionTime;
-    @Nullable
-    private UUID conversionStarter;
+    public int eggTime;
 
 
-    private static final EntityDataAccessor<Boolean> SITTING = SynchedEntityData.defineId(CarlDuckEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(CarlDuckEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> SITTING = SynchedEntityData.defineId(EggCarl.class, EntityDataSerializers.BOOLEAN);
     boolean dancing;
     @Nullable
     private BlockPos jukebox;
 
-    protected CarlDuckEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
+    public EggCarl(EntityType<? extends EggCarl> entityType, Level level) {
         super(entityType, level);
         this.level = level;
+        this.eggTime = this.random.nextInt(6000) + 6000;
         this.setPathfindingMalus(PathType.WATER, 0.0F);
         // this.maxUpStep = 1.0F;
     }
@@ -85,19 +78,6 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
     public void baseTick() {
         super.baseTick();
         this.setAirSupply(300);
-    }
-
-    @Override
-    public void tick() {
-        if (!this.level().isClientSide && this.isAlive() && this.isConverting()) {
-            int i = this.getConversionProgress();
-            this.carlConversionTime -= i;
-            if (this.carlConversionTime <= 0 && net.neoforged.neoforge.event.EventHooks.canLivingConvert(this, CarlMod.BIBLICALLY_ACCURATE_CARL_ENTITY.get(), (timer) -> this.carlConversionTime = timer)) {
-                this.finishConversion((ServerLevel)this.level());
-            }
-        }
-
-        super.tick();
     }
 
     //    @Override
@@ -144,7 +124,7 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
     }
 
     static class DuckPathNavigation extends GroundPathNavigation {
-        DuckPathNavigation(CarlDuckEntity duck, Level level) {
+        DuckPathNavigation(EggCarl duck, Level level) {
             super(duck, level);
         }
 
@@ -178,6 +158,13 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
         if (!this.onGround() && vec3d.y < 0.0D) {
             this.setDeltaMovement(vec3d.multiply(1.0D, 0.8D, 1.0D));
         }
+
+        if (!this.level().isClientSide && this.isAlive() && !this.isBaby() && --this.eggTime <= 0) {
+            this.playSound(SoundEvents.CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+            this.spawnAtLocation(CarlMod.CARL_EGG.get());
+            this.gameEvent(GameEvent.ENTITY_PLACE);
+            this.eggTime = this.random.nextInt(6000) + 6000;
+        }
     }
 
     @Override
@@ -209,42 +196,24 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
         super.defineSynchedData(builder);
         //this.entityData.set(FROM_BUCKET, false);
         //this.entityData.set(SITTING, false);
-        builder.define(FROM_BUCKET, false);
         builder.define(SITTING, false);
-        builder.define(DATA_CONVERTING_ID, false);
     }
 
     @Override
     public void addAdditionalSaveData(@NotNull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
 
-        tag.putBoolean("FromBucket", this.fromBucket());
         tag.putBoolean("isSitting", this.isSitting());
-
-        tag.putInt("ConversionTime", this.isConverting() ? this.carlConversionTime : -1);
-        if (this.conversionStarter != null) {
-            tag.putUUID("ConversionPlayer", this.conversionStarter);
-        }
+        tag.putInt("EggLayTime", this.eggTime);
     }
 
     @Override
     public void readAdditionalSaveData(@NotNull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        this.setFromBucket(tag.getBoolean("FromBucket"));
         setSitting(tag.getBoolean("isSitting"));
-    }
-
-    public boolean isConverting() {
-        return this.getEntityData().get(DATA_CONVERTING_ID);
-    }
-
-    private void startConverting(@Nullable UUID conversionStarter, int carlConversionTime) {
-        this.conversionStarter = conversionStarter;
-        this.carlConversionTime = carlConversionTime;
-        this.getEntityData().set(DATA_CONVERTING_ID, true);
-        this.removeEffect(MobEffects.WEAKNESS);
-        this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, carlConversionTime, Math.min(this.level().getDifficulty().getId() - 1, 0)));
-        this.level().broadcastEntityEvent(this, (byte)16);
+        if (tag.contains("EggLayTime")) {
+            this.eggTime = tag.getInt("EggLayTime");
+        }
     }
 
     @Override
@@ -284,7 +253,7 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
             if (!this.isSilent()) {
                 serverLevel.levelEvent(null, 1027, this.blockPosition(), 0);
             }
-            net.neoforged.neoforge.event.EventHooks.onLivingConvert(this, biblicallyAccurateCarl);
+            EventHooks.onLivingConvert(this, biblicallyAccurateCarl);
         }
     }
 
@@ -326,22 +295,13 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
     @Override
     // No breeding Carl here... What the hell is wrong with you
     // Evil DakotaPrideModding be like - Breed Carl, MOAR
-    public CarlDuckEntity getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
-        return CarlMod.CARL_ENTITY.get().create(level);
+    public EggCarl getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
+        return CarlMod.EGG_CARL_ENTITY.get().create(level);
     }
 
     @Override
     public @NotNull InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
-
-        if (itemstack.is(Items.NETHER_STAR)) {
-            itemstack.consume(1, player);
-            if (!this.level().isClientSide) {
-                this.startConverting(player.getUUID(), this.random.nextInt(2401) + 3600);
-            }
-
-            return InteractionResult.SUCCESS;
-        }
 
         if (isFood(itemstack) && !isTame()) {
             if (this.level.isClientSide) {
@@ -374,7 +334,7 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
             return InteractionResult.PASS;
         }
 
-        return Bucketable.bucketMobPickup(player, hand, this).orElse(super.mobInteract(player, hand));
+        return super.mobInteract(player, hand);
     }
 
     @Override
@@ -406,36 +366,6 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
-    }
-
-    @Override
-    public boolean fromBucket() {
-        return this.entityData.get(FROM_BUCKET);
-    }
-
-    @Override
-    public void setFromBucket(boolean b) {
-        this.entityData.set(FROM_BUCKET, b);
-    }
-
-    @Override
-    public void saveToBucketTag(@NotNull ItemStack itemStack) {
-        Bucketable.saveDefaultDataToBucketTag(this, itemStack);
-    }
-
-    @Override
-    public void loadFromBucketTag(@NotNull CompoundTag tag) {
-        Bucketable.loadDefaultDataFromBucketTag(this, tag);
-    }
-
-    @Override
-    public @NotNull ItemStack getBucketItemStack() {
-        return new ItemStack(CarlMod.DUCK_BUCKET.get());
-    }
-
-    @Override
-    public @NotNull SoundEvent getPickupSound() {
-        return SoundEvents.BUCKET_FILL_FISH;
     }
 
     @Nullable

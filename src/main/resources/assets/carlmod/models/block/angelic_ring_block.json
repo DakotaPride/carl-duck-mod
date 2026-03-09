@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "carlmod:block/angelic_ring_block"
+  }
+}

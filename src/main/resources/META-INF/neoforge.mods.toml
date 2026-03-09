@@ -23,7 +23,7 @@ license="MIT"
 modId="carlmod" #mandatory
 
 # The version number of the mod
-version="1.9.1" #mandatory
+version="1.9.1-quackiness" #mandatory
 
 # A display name for the mod
 displayName="Space Duck" #mandatory

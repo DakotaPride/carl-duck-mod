@@ -1,0 +1,13 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "carlmod:biblically_accurate_carl_feathers_block"
+        }
+      ]
+    }
+  ]
+}

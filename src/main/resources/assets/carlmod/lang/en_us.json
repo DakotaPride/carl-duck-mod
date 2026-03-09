@@ -1,4 +1,21 @@
 {
+  "entity.carlmod.biblically_accurate_carl": "Carl The Biblically Accurate Space Duck",
+  "item.carlmod.biblically_accurate_carl_spawn_egg": "Biblically Accurate Carl Spawn Egg",
+  "entity.carlmod.untitled_carl": "Carl The Untitled Space Duck",
+  "item.carlmod.untitled_carl_spawn_egg": "Untitled Carl Spawn Egg",
+  "entity.carlmod.egg_carl": "Carl The Laying Space Duck",
+  "item.carlmod.egg_carl_spawn_egg": "Laying Carl Spawn Egg",
+  "item.carlmod.carl_egg": "Space Duck Egg",
+  "block.carlmod.carl_feathers_block": "Block of Carl's Feathers",
+  "block.carlmod.untitled_carl_feathers_block": "Block of Untitled Carl's Feathers",
+  "block.carlmod.biblically_accurate_carl_feathers_block": "Block of Biblically Accurate Carl's Feathers",
+  "block.carlmod.helmet_block": "Helmet Shell Block",
+  "block.carlmod.outer_helmet_block": "Helmet Lining Block",
+  "block.carlmod.beak_block": "Carl's Beak Block",
+  "block.carlmod.untitled_beak_block": "Carl's Untitled Beak Block",
+  "block.carlmod.angelic_ring_block": "Angelic Ring Block",
+
+
   "carlmod.configuration.configs": "Carl mod configs",
   "carlmod.configuration.volume": "The volume of the *quack* sound from right-clicking a Carl block",
   "carlmod.configuration.pitch": "The pitch of the *quack* sound from right-clicking a Carl block",
