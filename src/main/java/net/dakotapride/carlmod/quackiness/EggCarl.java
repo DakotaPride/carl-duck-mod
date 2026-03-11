@@ -1,7 +1,8 @@
 package net.dakotapride.carlmod.quackiness;
 
-import net.dakotapride.carlmod.CarlDuckEntity;
-import net.dakotapride.carlmod.CarlMod;
+import net.dakotapride.carlmod.register.ModEntities;
+import net.dakotapride.carlmod.register.ModItems;
+import net.dakotapride.carlmod.register.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -10,7 +11,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
@@ -26,16 +26,11 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.PathFinder;
@@ -74,7 +69,7 @@ public class EggCarl extends TamableAnimal implements GeoEntity {
     }
 
     public static boolean spawnRules(EntityType<EggCarl> animal, LevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
-        return !level.getBlockState(pos.below()).is(Blocks.AIR);
+        return !level.getBlockState(pos.below()).is(Blocks.AIR) && level.getRawBrightness(pos, 0) > 8;
     }
 
     @Override
@@ -169,7 +164,7 @@ public class EggCarl extends TamableAnimal implements GeoEntity {
 
         if (!this.level().isClientSide && this.isAlive() && !this.isBaby() && --this.eggTime <= 0) {
             this.playSound(SoundEvents.CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-            this.spawnAtLocation(CarlMod.CARL_EGG.get());
+            this.spawnAtLocation(ModItems.CARL_EGG.get());
             this.gameEvent(GameEvent.ENTITY_PLACE);
             this.eggTime = this.random.nextInt(6000) + 6000;
         }
@@ -245,51 +240,6 @@ public class EggCarl extends TamableAnimal implements GeoEntity {
         }
     }
 
-    private void finishConversion(ServerLevel serverLevel) {
-        BiblicallyAccurateCarlBoss biblicallyAccurateCarl = this.convertTo(CarlMod.BIBLICALLY_ACCURATE_CARL_ENTITY.get(), false);
-        if (biblicallyAccurateCarl != null) {
-            for (EquipmentSlot equipmentslot : this.dropPreservedEquipment(
-                    p_351901_ -> !EnchantmentHelper.has(p_351901_, EnchantmentEffectComponents.PREVENT_ARMOR_CHANGE)
-            )) {
-                SlotAccess slotaccess = biblicallyAccurateCarl.getSlot(equipmentslot.getIndex() + 300);
-                slotaccess.set(this.getItemBySlot(equipmentslot));
-            }
-
-
-            biblicallyAccurateCarl.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(biblicallyAccurateCarl.blockPosition()), MobSpawnType.CONVERSION, null);
-
-            if (!this.isSilent()) {
-                serverLevel.levelEvent(null, 1027, this.blockPosition(), 0);
-            }
-            EventHooks.onLivingConvert(this, biblicallyAccurateCarl);
-        }
-    }
-
-    private int getConversionProgress() {
-        int i = 1;
-        if (this.random.nextFloat() < 0.01F) {
-            int j = 0;
-            BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-
-            for (int k = (int)this.getX() - 4; k < (int)this.getX() + 4 && j < 14; k++) {
-                for (int l = (int)this.getY() - 4; l < (int)this.getY() + 4 && j < 14; l++) {
-                    for (int i1 = (int)this.getZ() - 4; i1 < (int)this.getZ() + 4 && j < 14; i1++) {
-                        BlockState blockstate = this.level().getBlockState(blockpos$mutableblockpos.set(k, l, i1));
-                        if (blockstate.is(Blocks.IRON_BARS) || blockstate.getBlock() instanceof BedBlock) {
-                            if (this.random.nextFloat() < 0.3F) {
-                                i++;
-                            }
-
-                            j++;
-                        }
-                    }
-                }
-            }
-        }
-
-        return i;
-    }
-
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
         if (spawnType == MobSpawnType.BUCKET) {
@@ -304,7 +254,7 @@ public class EggCarl extends TamableAnimal implements GeoEntity {
     // No breeding Carl here... What the hell is wrong with you
     // Evil DakotaPrideModding be like - Breed Carl, MOAR
     public EggCarl getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
-        return CarlMod.EGG_CARL_ENTITY.get().create(level);
+        return ModEntities.EGG_CARL_ENTITY.get().create(level);
     }
 
     @Override
@@ -312,6 +262,13 @@ public class EggCarl extends TamableAnimal implements GeoEntity {
         ItemStack itemstack = player.getItemInHand(hand);
 
         if (isFood(itemstack) && !isTame()) {
+            int i = this.getAge();
+            if (!this.level().isClientSide && i == 0 && this.canFallInLove()) {
+                this.usePlayerItem(player, hand, itemstack);
+                this.setInLove(player);
+                return InteractionResult.SUCCESS;
+            }
+
             if (this.level.isClientSide) {
                 return InteractionResult.CONSUME;
             } else {
@@ -382,15 +339,15 @@ public class EggCarl extends TamableAnimal implements GeoEntity {
         if ("awsome".equalsIgnoreCase(this.getName().getString()) || "carltheawsome".equalsIgnoreCase(this.getName().getString())
             || "dejojo".equalsIgnoreCase(this.getName().getString()) || "dejojotheawsome".equalsIgnoreCase(this.getName().getString())) {
             // placeholder - return SoundEvents.COD_AMBIENT;
-            return CarlMod.CARL_WAMP.get();
+            return ModSounds.CARL_WAMP.get();
         } else if ("dragon".equalsIgnoreCase(this.getName().getString()) || "ender_dragon".equalsIgnoreCase(this.getName().getString()) || "jean".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.ENDER_DRAGON_AMBIENT;
         } else if ("mekanism".equalsIgnoreCase(this.getName().getString()) || "mekanized".equalsIgnoreCase(this.getName().getString()) || "create".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.IRON_GOLEM_REPAIR;
         } else if ("bok_choy".equalsIgnoreCase(this.getName().getString()) || "bok_choyo".equalsIgnoreCase(this.getName().getString())) {
-            return CarlMod.CARL_QUACK_PLANT.get();
+            return ModSounds.CARL_QUACK_PLANT.get();
         } else {
-            return CarlMod.CARL_QUACK.get();
+            return ModSounds.CARL_QUACK.get();
         }
     }
 
@@ -400,15 +357,15 @@ public class EggCarl extends TamableAnimal implements GeoEntity {
         if ("awsome".equalsIgnoreCase(this.getName().getString()) || "carltheawsome".equalsIgnoreCase(this.getName().getString())
                 || "dejojo".equalsIgnoreCase(this.getName().getString()) || "dejojotheawsome".equalsIgnoreCase(this.getName().getString())) {
             // placeholder - return SoundEvents.COD_DEATH;
-            return CarlMod.CARL_WAMP.get();
+            return ModSounds.CARL_WAMP.get();
         } else if ("dragon".equalsIgnoreCase(this.getName().getString()) || "ender_dragon".equalsIgnoreCase(this.getName().getString()) || "jean".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.ENDER_DRAGON_DEATH;
         } else if ("mekanism".equalsIgnoreCase(this.getName().getString()) || "mekanized".equalsIgnoreCase(this.getName().getString()) || "create".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.IRON_GOLEM_DEATH;
         } else if ("bok_choy".equalsIgnoreCase(this.getName().getString()) || "bok_choyo".equalsIgnoreCase(this.getName().getString())) {
-            return CarlMod.CARL_QUACK_PLANT.get();
+            return ModSounds.CARL_QUACK_PLANT.get();
         } else {
-            return CarlMod.CARL_QUACK.get();
+            return ModSounds.CARL_QUACK.get();
         }
     }
 
@@ -418,15 +375,15 @@ public class EggCarl extends TamableAnimal implements GeoEntity {
         if ("awsome".equalsIgnoreCase(this.getName().getString()) || "carltheawsome".equalsIgnoreCase(this.getName().getString())
                 || "dejojo".equalsIgnoreCase(this.getName().getString()) || "dejojotheawsome".equalsIgnoreCase(this.getName().getString())) {
             // placeholder - return SoundEvents.COD_HURT;
-            return CarlMod.CARL_WAMP.get();
+            return ModSounds.CARL_WAMP.get();
         } else if ("dragon".equalsIgnoreCase(this.getName().getString()) || "ender_dragon".equalsIgnoreCase(this.getName().getString()) || "jean".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.ENDER_DRAGON_HURT;
         } else if ("mekanism".equalsIgnoreCase(this.getName().getString()) || "mekanized".equalsIgnoreCase(this.getName().getString()) || "create".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.IRON_GOLEM_HURT;
         } else if ("bok_choy".equalsIgnoreCase(this.getName().getString()) || "bok_choyo".equalsIgnoreCase(this.getName().getString())) {
-            return CarlMod.CARL_QUACK_PLANT.get();
+            return ModSounds.CARL_QUACK_PLANT.get();
         } else {
-            return CarlMod.CARL_QUACK.get();
+            return ModSounds.CARL_QUACK.get();
         }
     }
 }

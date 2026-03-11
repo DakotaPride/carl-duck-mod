@@ -2,6 +2,8 @@ package net.dakotapride.carlmod;
 
 import com.mojang.serialization.MapCodec;
 import net.dakotapride.carlmod.config.CarlConfig;
+import net.dakotapride.carlmod.register.ModBlocks;
+import net.dakotapride.carlmod.register.ModSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -115,7 +117,7 @@ public class CarlBlock extends HorizontalDirectionalBlock implements Equipable {
 
     @Override
     public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
-        return CarlMod.CARL_ITEM.get().getDefaultInstance();
+        return ModBlocks.CARL_ITEM.get().getDefaultInstance();
     }
 
     @Override
@@ -136,7 +138,7 @@ public class CarlBlock extends HorizontalDirectionalBlock implements Equipable {
 
     public boolean attemptToQuack(@Nullable Entity entity, Level level, BlockPos pos) {
         if (!level.isClientSide) {
-            level.playSound(null, pos, CarlMod.CARL_QUACK.get(), SoundSource.BLOCKS, CarlConfig.QUACK_RIGHT_CLICK_VOLUME.get().floatValue(), CarlConfig.QUACK_RIGHT_CLICK_PITCH.get().floatValue());
+            level.playSound(null, pos, ModSounds.CARL_QUACK.get(), SoundSource.BLOCKS, CarlConfig.QUACK_RIGHT_CLICK_VOLUME.get().floatValue(), CarlConfig.QUACK_RIGHT_CLICK_PITCH.get().floatValue());
             level.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
             return true;
         } else {
@@ -194,7 +196,7 @@ public class CarlBlock extends HorizontalDirectionalBlock implements Equipable {
                 level.setBlock(pos, state.cycle(BIG_HELMET),3);
             }
         } else if (!player.isCrouching()) {
-            player.playSound(CarlMod.CARL_QUACK.get(), CarlConfig.QUACK_RIGHT_CLICK_VOLUME.get().floatValue(), CarlConfig.QUACK_RIGHT_CLICK_PITCH.get().floatValue());
+            player.playSound(ModSounds.CARL_QUACK.get(), CarlConfig.QUACK_RIGHT_CLICK_VOLUME.get().floatValue(), CarlConfig.QUACK_RIGHT_CLICK_PITCH.get().floatValue());
         }
 
         return InteractionResult.sidedSuccess(level.isClientSide);

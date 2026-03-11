@@ -3,8 +3,8 @@
   "biomes": "#carlmod:untitled_carl_spawnable",
   "spawners": {
     "type": "carlmod:untitled_carl",
-    "maxCount": 15,
-    "minCount": 10,
-    "weight": 100
+    "maxCount": 3,
+    "minCount": 1,
+    "weight": 60
   }
 }

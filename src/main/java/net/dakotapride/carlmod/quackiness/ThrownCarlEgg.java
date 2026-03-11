@@ -2,6 +2,8 @@ package net.dakotapride.carlmod.quackiness;
 
 import net.dakotapride.carlmod.CarlDuckEntity;
 import net.dakotapride.carlmod.CarlMod;
+import net.dakotapride.carlmod.register.ModEntities;
+import net.dakotapride.carlmod.register.ModItems;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.EntityDimensions;
@@ -21,11 +23,11 @@ public class ThrownCarlEgg extends ThrowableItemProjectile {
     }
 
     public ThrownCarlEgg(Level level, LivingEntity shooter) {
-        super(CarlMod.THROWN_CARL_EGG_ENTITY.get(), shooter, level);
+        super(ModEntities.THROWN_CARL_EGG_ENTITY.get(), shooter, level);
     }
 
     public ThrownCarlEgg(Level level, double x, double y, double z) {
-        super(CarlMod.THROWN_CARL_EGG_ENTITY.get(), x, y, z, level);
+        super(ModEntities.THROWN_CARL_EGG_ENTITY.get(), x, y, z, level);
     }
 
     @Override
@@ -55,7 +57,7 @@ public class ThrownCarlEgg extends ThrowableItemProjectile {
                 }
 
                 for(int j = 0; j < i; ++j) {
-                    CarlDuckEntity carl = CarlMod.CARL_ENTITY.get().create(this.level());
+                    CarlDuckEntity carl = ModEntities.CARL_ENTITY.get().create(this.level());
                     if (carl != null) {
                         carl.setAge(-24000);
                         carl.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
@@ -76,6 +78,6 @@ public class ThrownCarlEgg extends ThrowableItemProjectile {
 
     @Override
     protected Item getDefaultItem() {
-        return CarlMod.CARL_EGG.get();
+        return ModItems.CARL_EGG.get();
     }
 }

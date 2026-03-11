@@ -3,8 +3,8 @@
   "biomes": "#carlmod:egg_carl_spawnable",
   "spawners": {
     "type": "carlmod:egg_carl",
-    "maxCount": 15,
-    "minCount": 10,
-    "weight": 100
+    "maxCount": 3,
+    "minCount": 1,
+    "weight": 60
   }
 }

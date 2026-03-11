@@ -2,6 +2,7 @@ package net.dakotapride.carlmod.quackiness;
 
 import net.dakotapride.carlmod.CarlDuckEntity;
 import net.dakotapride.carlmod.CarlMod;
+import net.dakotapride.carlmod.register.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BlockTags;
@@ -34,7 +35,7 @@ public class UntitledCarl extends Monster implements GeoEntity {
     }
 
     public static boolean spawnRules(EntityType<UntitledCarl> untitledCarl, LevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
-        return !level.getBlockState(pos.below()).is(Blocks.AIR);
+        return !level.getBlockState(pos.below()).is(Blocks.AIR) && level.getRawBrightness(pos, 0) > 8;
     }
 
     private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> event) {
@@ -78,14 +79,14 @@ public class UntitledCarl extends Monster implements GeoEntity {
     }
 
     protected SoundEvent getAmbientSound() {
-        return CarlMod.CARL_QUACK.get();
+        return ModSounds.CARL_QUACK.get();
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSource) {
-        return CarlMod.CARL_QUACK.get();
+        return ModSounds.CARL_QUACK.get();
     }
 
     protected SoundEvent getDeathSound() {
-        return CarlMod.CARL_QUACK.get();
+        return ModSounds.CARL_QUACK.get();
     }
 }

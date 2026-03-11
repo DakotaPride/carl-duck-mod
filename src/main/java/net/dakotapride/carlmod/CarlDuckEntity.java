@@ -1,6 +1,9 @@
 package net.dakotapride.carlmod;
 
 import net.dakotapride.carlmod.quackiness.BiblicallyAccurateCarlBoss;
+import net.dakotapride.carlmod.register.ModEntities;
+import net.dakotapride.carlmod.register.ModItems;
+import net.dakotapride.carlmod.register.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -9,7 +12,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
@@ -72,7 +74,7 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
     @Nullable
     private BlockPos jukebox;
 
-    protected CarlDuckEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
+    public CarlDuckEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
         super(entityType, level);
         this.level = level;
         this.setPathfindingMalus(PathType.WATER, 0.0F);
@@ -80,7 +82,7 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
     }
 
     public static boolean spawnRules(EntityType<CarlDuckEntity> carl, LevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
-        return !level.getBlockState(pos.below()).is(Blocks.AIR);
+        return !level.getBlockState(pos.below()).is(Blocks.AIR) && level.getRawBrightness(pos, 0) > 8;
     }
 
     @Override
@@ -99,7 +101,7 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
         if (!this.level().isClientSide && this.isAlive() && this.isConverting()) {
             int i = this.getConversionProgress();
             this.carlConversionTime -= i;
-            if (this.carlConversionTime <= 0 && net.neoforged.neoforge.event.EventHooks.canLivingConvert(this, CarlMod.BIBLICALLY_ACCURATE_CARL_ENTITY.get(), (timer) -> this.carlConversionTime = timer)) {
+            if (this.carlConversionTime <= 0 && net.neoforged.neoforge.event.EventHooks.canLivingConvert(this, ModEntities.BIBLICALLY_ACCURATE_CARL_ENTITY.get(), (timer) -> this.carlConversionTime = timer)) {
                 this.finishConversion((ServerLevel)this.level());
             }
         }
@@ -276,7 +278,7 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
     }
 
     private void finishConversion(ServerLevel serverLevel) {
-        BiblicallyAccurateCarlBoss biblicallyAccurateCarl = this.convertTo(CarlMod.BIBLICALLY_ACCURATE_CARL_ENTITY.get(), false);
+        BiblicallyAccurateCarlBoss biblicallyAccurateCarl = this.convertTo(ModEntities.BIBLICALLY_ACCURATE_CARL_ENTITY.get(), false);
         if (biblicallyAccurateCarl != null) {
             for (EquipmentSlot equipmentslot : this.dropPreservedEquipment(
                     p_351901_ -> !EnchantmentHelper.has(p_351901_, EnchantmentEffectComponents.PREVENT_ARMOR_CHANGE)
@@ -334,7 +336,7 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
     // No breeding Carl here... What the hell is wrong with you
     // Evil DakotaPrideModding be like - Breed Carl, MOAR
     public CarlDuckEntity getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
-        return CarlMod.CARL_ENTITY.get().create(level);
+        return ModEntities.CARL_ENTITY.get().create(level);
     }
 
     @Override
@@ -444,7 +446,7 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
 
     @Override
     public @NotNull ItemStack getBucketItemStack() {
-        return new ItemStack(CarlMod.DUCK_BUCKET.get());
+        return new ItemStack(ModItems.DUCK_BUCKET.get());
     }
 
     @Override
@@ -458,15 +460,15 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
         if ("awsome".equalsIgnoreCase(this.getName().getString()) || "carltheawsome".equalsIgnoreCase(this.getName().getString())
             || "dejojo".equalsIgnoreCase(this.getName().getString()) || "dejojotheawsome".equalsIgnoreCase(this.getName().getString())) {
             // placeholder - return SoundEvents.COD_AMBIENT;
-            return CarlMod.CARL_WAMP.get();
+            return ModSounds.CARL_WAMP.get();
         } else if ("dragon".equalsIgnoreCase(this.getName().getString()) || "ender_dragon".equalsIgnoreCase(this.getName().getString()) || "jean".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.ENDER_DRAGON_AMBIENT;
         } else if ("mekanism".equalsIgnoreCase(this.getName().getString()) || "mekanized".equalsIgnoreCase(this.getName().getString()) || "create".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.IRON_GOLEM_REPAIR;
         } else if ("bok_choy".equalsIgnoreCase(this.getName().getString()) || "bok_choyo".equalsIgnoreCase(this.getName().getString())) {
-            return CarlMod.CARL_QUACK_PLANT.get();
+            return ModSounds.CARL_QUACK_PLANT.get();
         } else {
-            return CarlMod.CARL_QUACK.get();
+            return ModSounds.CARL_QUACK.get();
         }
     }
 
@@ -476,15 +478,15 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
         if ("awsome".equalsIgnoreCase(this.getName().getString()) || "carltheawsome".equalsIgnoreCase(this.getName().getString())
                 || "dejojo".equalsIgnoreCase(this.getName().getString()) || "dejojotheawsome".equalsIgnoreCase(this.getName().getString())) {
             // placeholder - return SoundEvents.COD_DEATH;
-            return CarlMod.CARL_WAMP.get();
+            return ModSounds.CARL_WAMP.get();
         } else if ("dragon".equalsIgnoreCase(this.getName().getString()) || "ender_dragon".equalsIgnoreCase(this.getName().getString()) || "jean".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.ENDER_DRAGON_DEATH;
         } else if ("mekanism".equalsIgnoreCase(this.getName().getString()) || "mekanized".equalsIgnoreCase(this.getName().getString()) || "create".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.IRON_GOLEM_DEATH;
         } else if ("bok_choy".equalsIgnoreCase(this.getName().getString()) || "bok_choyo".equalsIgnoreCase(this.getName().getString())) {
-            return CarlMod.CARL_QUACK_PLANT.get();
+            return ModSounds.CARL_QUACK_PLANT.get();
         } else {
-            return CarlMod.CARL_QUACK.get();
+            return ModSounds.CARL_QUACK.get();
         }
     }
 
@@ -494,15 +496,15 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
         if ("awsome".equalsIgnoreCase(this.getName().getString()) || "carltheawsome".equalsIgnoreCase(this.getName().getString())
                 || "dejojo".equalsIgnoreCase(this.getName().getString()) || "dejojotheawsome".equalsIgnoreCase(this.getName().getString())) {
             // placeholder - return SoundEvents.COD_HURT;
-            return CarlMod.CARL_WAMP.get();
+            return ModSounds.CARL_WAMP.get();
         } else if ("dragon".equalsIgnoreCase(this.getName().getString()) || "ender_dragon".equalsIgnoreCase(this.getName().getString()) || "jean".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.ENDER_DRAGON_HURT;
         } else if ("mekanism".equalsIgnoreCase(this.getName().getString()) || "mekanized".equalsIgnoreCase(this.getName().getString()) || "create".equalsIgnoreCase(this.getName().getString())) {
             return SoundEvents.IRON_GOLEM_HURT;
         } else if ("bok_choy".equalsIgnoreCase(this.getName().getString()) || "bok_choyo".equalsIgnoreCase(this.getName().getString())) {
-            return CarlMod.CARL_QUACK_PLANT.get();
+            return ModSounds.CARL_QUACK_PLANT.get();
         } else {
-            return CarlMod.CARL_QUACK.get();
+            return ModSounds.CARL_QUACK.get();
         }
     }
 }
