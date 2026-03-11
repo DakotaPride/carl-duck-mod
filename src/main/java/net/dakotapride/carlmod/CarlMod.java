@@ -295,12 +295,12 @@ public class CarlMod {
 
         @SubscribeEvent
         public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {
-            event.register(CARL_ENTITY.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                    CarlDuckEntity::spawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
-            event.register(UNTITLED_CARL_ENTITY.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                    UntitledCarl::spawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
-            event.register(EGG_CARL_ENTITY.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                    EggCarl::spawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
+            event.register(CarlMod.CARL_ENTITY.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                    CarlDuckEntity::spawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+            event.register(CarlMod.UNTITLED_CARL_ENTITY.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                    UntitledCarl::spawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+            event.register(CarlMod.EGG_CARL_ENTITY.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                    EggCarl::spawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         }
     }
 }

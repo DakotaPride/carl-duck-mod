@@ -73,7 +73,7 @@ public class EggCarl extends TamableAnimal implements GeoEntity {
         // this.maxUpStep = 1.0F;
     }
 
-    public static boolean spawnRules(EntityType<? extends Animal> animal, LevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+    public static boolean spawnRules(EntityType<EggCarl> animal, LevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         return !level.getBlockState(pos.below()).is(Blocks.AIR);
     }
 

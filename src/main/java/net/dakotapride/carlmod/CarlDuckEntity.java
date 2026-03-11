@@ -79,7 +79,7 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
         // this.maxUpStep = 1.0F;
     }
 
-    public static boolean spawnRules(EntityType<? extends Animal> animal, LevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+    public static boolean spawnRules(EntityType<CarlDuckEntity> carl, LevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         return !level.getBlockState(pos.below()).is(Blocks.AIR);
     }
 

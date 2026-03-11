@@ -33,7 +33,7 @@ public class UntitledCarl extends Monster implements GeoEntity {
         this.xpReward = 3;
     }
 
-    public static boolean spawnRules(EntityType<? extends Monster> monster, LevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+    public static boolean spawnRules(EntityType<UntitledCarl> untitledCarl, LevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         return !level.getBlockState(pos.below()).is(Blocks.AIR);
     }
 
