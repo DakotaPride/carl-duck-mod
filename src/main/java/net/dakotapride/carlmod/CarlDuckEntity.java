@@ -9,7 +9,9 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -31,6 +33,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Blocks;
@@ -74,6 +77,10 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
         this.level = level;
         this.setPathfindingMalus(PathType.WATER, 0.0F);
         // this.maxUpStep = 1.0F;
+    }
+
+    public static boolean spawnRules(EntityType<? extends Animal> animal, LevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+        return !level.getBlockState(pos.below()).is(Blocks.AIR);
     }
 
     @Override
@@ -344,6 +351,13 @@ public class CarlDuckEntity extends TamableAnimal implements GeoEntity, Bucketab
         }
 
         if (isFood(itemstack) && !isTame()) {
+            int i = this.getAge();
+            if (!this.level().isClientSide && i == 0 && this.canFallInLove()) {
+                this.usePlayerItem(player, hand, itemstack);
+                this.setInLove(player);
+                return InteractionResult.SUCCESS;
+            }
+
             if (this.level.isClientSide) {
                 return InteractionResult.CONSUME;
             } else {

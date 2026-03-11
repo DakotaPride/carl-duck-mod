@@ -1,17 +1,25 @@
 package net.dakotapride.carlmod.quackiness;
 
+import net.dakotapride.carlmod.CarlDuckEntity;
 import net.dakotapride.carlmod.CarlMod;
+import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -23,6 +31,10 @@ public class UntitledCarl extends Monster implements GeoEntity {
     public UntitledCarl(EntityType<? extends UntitledCarl> entityType, Level level) {
         super(entityType, level);
         this.xpReward = 3;
+    }
+
+    public static boolean spawnRules(EntityType<? extends Monster> monster, LevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+        return !level.getBlockState(pos.below()).is(Blocks.AIR);
     }
 
     private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> event) {

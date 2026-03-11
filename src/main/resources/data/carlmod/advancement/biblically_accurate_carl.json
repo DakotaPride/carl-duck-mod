@@ -1,0 +1,40 @@
+{
+  "display": {
+    "icon": {
+      "id": "carlmod:biblically_accurate_carl_feathers_block"
+    },
+    "title": {
+      "translate": "advancement.carlmod.biblically_accurate_carl.title"
+    },
+    "description": {
+      "translate": "advancement.carlmod.biblically_accurate_carl.description",
+      "color": "#FFC844",
+      "bold": false,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "carlmod:carl",
+  "criteria": {
+    "kill_biblically_accurate_carl": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "player": {},
+        "entity": {
+          "type": "carlmod:biblically_accurate_carl"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "kill_biblically_accurate_carl"
+    ]
+  ]
+}

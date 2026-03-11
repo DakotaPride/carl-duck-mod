@@ -1,12 +1,10 @@
 {
   "type": "neoforge:add_spawns",
-  "biomes": "#c:is_beach",
-  "spawners": [
-    {
-      "type": "carlmod:egg_carl",
-      "weight": 1,
-      "minCount": 1,
-      "maxCount": 2
-    }
-  ]
+  "biomes": "#carlmod:egg_carl_spawnable",
+  "spawners": {
+    "type": "carlmod:egg_carl",
+    "maxCount": 15,
+    "minCount": 10,
+    "weight": 100
+  }
 }

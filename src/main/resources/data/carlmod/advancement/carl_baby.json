@@ -1,0 +1,40 @@
+{
+  "display": {
+    "icon": {
+      "id": "carlmod:carl_egg"
+    },
+    "title": {
+      "translate": "advancement.carlmod.carl_baby.title"
+    },
+    "description": {
+      "translate": "advancement.carlmod.carl_baby.description",
+      "color": "#FFC844",
+      "bold": false,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "carlmod:carl",
+  "criteria": {
+    "carl_baby": {
+      "trigger": "minecraft:bred_animals",
+      "conditions": {
+        "player": {},
+        "child": {
+          "type": "carlmod:carl"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "carl_baby"
+    ]
+  ]
+}

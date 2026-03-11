@@ -34,6 +34,17 @@
   "itemGroup.carlmod.carl": "The Space Duck",
   "advancement.carlmod.obtain_carl.title": "Quack Quack",
   "advancement.carlmod.obtain_carl.description": "Obtain Carl The Space Duck",
+  "advancement.carlmod.carl_statues_structure.title": "Quack Qua Qua Qua, Quack",
+  "advancement.carlmod.carl_statues_structure.description": "Find floating statues made of worship from the ducky gods",
+  // Aarl, Barl, Carl, Darl, Earl, and Farl - Carl is the most popular member and therefore the other 5 keep away
+  "advancement.carlmod.obtain_carl_help_book.title": "Quack, quack quack quack.",
+  "advancement.carlmod.obtain_carl_help_book.description": "Find Carl's plea for help - Yes, it's the full thing from the original instance of the book",
+  "advancement.carlmod.untitled_carl.title": "Peace wa- I mean, Quack Qua",
+  "advancement.carlmod.untitled_carl.description": "Defeat an Untitled Carl",
+  "advancement.carlmod.biblically_accurate_carl.title": "Quackinity",
+  "advancement.carlmod.biblically_accurate_carl.description": "Defeat Biblically Accurate Carl after putting Carl the Space Duck through some undesired transformations",
+  "advancement.carlmod.carl_baby.title": "Quack Qua Qua!",
+  "advancement.carlmod.carl_baby.description": "Breed Carl to make a baby Carl... Are you happy with yourself?",
 
   "item.carlmod.smithing_template.carl_upgrade.additions_slot_description": "Add Carl",
   "item.carlmod.smithing_template.carl_upgrade.applies_to": "Buckets",

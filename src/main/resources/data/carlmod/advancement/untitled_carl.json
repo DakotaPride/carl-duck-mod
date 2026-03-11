@@ -1,13 +1,13 @@
 {
   "display": {
     "icon": {
-      "id": "carlmod:carl"
+      "id": "carlmod:untitled_carl_feathers_block"
     },
     "title": {
-      "translate": "advancement.carlmod.obtain_carl.title"
+      "translate": "advancement.carlmod.untitled_carl.title"
     },
     "description": {
-      "translate": "advancement.carlmod.obtain_carl.description",
+      "translate": "advancement.carlmod.untitled_carl.description",
       "color": "#FFC844",
       "bold": false,
       "italic": false,
@@ -15,30 +15,26 @@
       "strikethrough": false,
       "obfuscated": false
     },
-    "background": "carlmod:textures/block/carl_feathers_block.png",
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
   },
+  "parent": "carlmod:carl",
   "criteria": {
-    "obtain_carl": {
-      "trigger": "minecraft:inventory_changed",
+    "kill_untitled_carl": {
+      "trigger": "minecraft:player_killed_entity",
       "conditions": {
         "player": {},
-        "items": [
-          {
-            "items": [
-              "carlmod:carl"
-            ]
-          }
-        ]
+        "entity": {
+          "type": "carlmod:untitled_carl"
+        }
       }
     }
   },
   "requirements": [
     [
-      "obtain_carl"
+      "kill_untitled_carl"
     ]
   ]
 }
